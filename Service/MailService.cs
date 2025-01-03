@@ -11,7 +11,7 @@ namespace Service
         {
             try
             {
-                SmtpClient smtpClient = new("smtp.deco.com.br")
+                SmtpClient smtpClient = new("smtp.com.br")
                 {
                     Port = 587,
                     Credentials = new NetworkCredential(email, password),
@@ -26,7 +26,7 @@ namespace Service
                     IsBodyHtml = false
                 };
 
-                mail.To.Add("fiscal@deco.com.br");
+                mail.To.Add("destinatario@deco.com.br");
                 Attachment attachment = new(file);
                 mail.Attachments.Add(attachment);
                 smtpClient.Send(mail);
