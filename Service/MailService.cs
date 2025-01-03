@@ -86,7 +86,7 @@ namespace Service
                         archive.SaveTo(stream, CompressionType.None);
                     }
 
-                    SendMail("lucas.feitosa@deco.com.br", "15975323Lu.", fileZip);
+                    SendMail("seuemail@deco.com.br", "password".", fileZip);
                 }
 
                 Console.WriteLine("Arquivos .zip criados com sucesso!");
