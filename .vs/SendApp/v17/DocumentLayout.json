@@ -1,0 +1,62 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\Usu\u00E1rio\\source\\repos\\SendApp\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{28961964-DCE0-49B7-9C07-96AEAFFAE530}|Service\\Service.csproj|c:\\users\\usu\u00E1rio\\source\\repos\\sendapp\\service\\mailservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{28961964-DCE0-49B7-9C07-96AEAFFAE530}|Service\\Service.csproj|solutionrelative:service\\mailservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D9479834-1AA3-4EF3-B2DA-76A9F62EEBCA}|SendApp\\SendApp.csproj|c:\\users\\usu\u00E1rio\\source\\repos\\sendapp\\sendapp\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D9479834-1AA3-4EF3-B2DA-76A9F62EEBCA}|SendApp\\SendApp.csproj|solutionrelative:sendapp\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{0174dea2-fdbe-4ef1-8f99-c0beae78880f}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "MailService.cs",
+              "DocumentMoniker": "C:\\Users\\Usu\u00E1rio\\source\\repos\\SendApp\\Service\\MailService.cs",
+              "RelativeDocumentMoniker": "Service\\MailService.cs",
+              "ToolTip": "C:\\Users\\Usu\u00E1rio\\source\\repos\\SendApp\\Service\\MailService.cs",
+              "RelativeToolTip": "Service\\MailService.cs",
+              "ViewState": "AgIAAFEAAAAAAAAAAAAAAFEAAAAVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-03T17:52:32.742Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\Usu\u00E1rio\\source\\repos\\SendApp\\SendApp\\Program.cs",
+              "RelativeDocumentMoniker": "SendApp\\Program.cs",
+              "ToolTip": "C:\\Users\\Usu\u00E1rio\\source\\repos\\SendApp\\SendApp\\Program.cs",
+              "RelativeToolTip": "SendApp\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-03T16:32:52.766Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

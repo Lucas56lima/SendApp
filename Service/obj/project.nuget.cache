@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "eMCF75m9Mao=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Usuário\\source\\repos\\SendApp\\Service\\Service.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Usuário\\.nuget\\packages\\sharpcompress\\0.38.0\\sharpcompress.0.38.0.nupkg.sha512",
+    "C:\\Users\\Usuário\\.nuget\\packages\\zstdsharp.port\\0.8.1\\zstdsharp.port.0.8.1.nupkg.sha512"
+  ],
+  "logs": []
+}
