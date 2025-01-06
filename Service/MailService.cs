@@ -11,7 +11,11 @@ namespace Service
         {
             try
             {
+<<<<<<< HEAD
                 SmtpClient smtpClient = new("***.com.br")
+=======
+                SmtpClient smtpClient = new("smtp.com.br")
+>>>>>>> 51bee8023b0dceecf71a8d930cf1687e7689de2a
                 {
                     Port = 0,
                     Credentials = new NetworkCredential(email, password),
@@ -26,7 +30,11 @@ namespace Service
                     IsBodyHtml = false
                 };
 
+<<<<<<< HEAD
                 mail.To.Add("emailteste@com.br");
+=======
+                mail.To.Add("destinatario@deco.com.br");
+>>>>>>> 51bee8023b0dceecf71a8d930cf1687e7689de2a
                 Attachment attachment = new(file);
                 mail.Attachments.Add(attachment);
                 smtpClient.Send(mail);
@@ -86,7 +94,12 @@ namespace Service
                         archive.SaveTo(stream, CompressionType.None);
                     }
 
+<<<<<<< HEAD
                     Console.WriteLine("Arquivos .zip criados com sucesso!");
+=======
+                    SendMail("seuemail@deco.com.br", "password".", fileZip);
+                }
+>>>>>>> 51bee8023b0dceecf71a8d930cf1687e7689de2a
 
                     SendMail("seuemail@dcom.br", "sua senha", fileZip);
                 }
