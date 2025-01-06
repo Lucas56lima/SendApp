@@ -1,4 +1,6 @@
-using Service;
+using Domain.Interfaces;
+using Infrastructure.Repositories;
+using Service.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,10 +10,14 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddScoped<IStoreRepository, StoreRepository>();
+builder.Services.AddScoped<IStoreService, StoreService>();
+builder.Services.AddScoped<ISchedulingRepository, SchedulingRepository>();
+builder.Services.AddScoped<ISchedulingService, SchedulingService>();
 
 var app = builder.Build();
 var mailService = new MailService();
-mailService.GetFileForPath(@"C:\\Users\\Usuário\\Desktop\\Nova pasta");
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

@@ -1,18 +1,54 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\Usu\u00E1rio\\source\\repos\\SendApp\\",
+  "WorkspaceRootPath": "C:\\Users\\lucas\\source\\repos\\Lucas56lima\\SendApp\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{28961964-DCE0-49B7-9C07-96AEAFFAE530}|Service\\Service.csproj|c:\\users\\usu\u00E1rio\\source\\repos\\sendapp\\service\\mailservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{28961964-DCE0-49B7-9C07-96AEAFFAE530}|Service\\Service.csproj|solutionrelative:service\\mailservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{E2CDD5CF-8DC0-46BE-917D-A48DD062D45F}|Domain\\Domain.csproj|c:\\users\\lucas\\source\\repos\\lucas56lima\\sendapp\\domain\\domain.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{E2CDD5CF-8DC0-46BE-917D-A48DD062D45F}|Domain\\Domain.csproj|solutionrelative:domain\\domain.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E2CDD5CF-8DC0-46BE-917D-A48DD062D45F}|Domain\\Domain.csproj|c:\\users\\usu\u00E1rio\\source\\repos\\sendapp\\domain\\entities\\store.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E2CDD5CF-8DC0-46BE-917D-A48DD062D45F}|Domain\\Domain.csproj|solutionrelative:domain\\entities\\store.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D9479834-1AA3-4EF3-B2DA-76A9F62EEBCA}|SendApp\\SendApp.csproj|c:\\users\\usu\u00E1rio\\source\\repos\\sendapp\\sendapp\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{D9479834-1AA3-4EF3-B2DA-76A9F62EEBCA}|SendApp\\SendApp.csproj|c:\\users\\lucas\\source\\repos\\lucas56lima\\sendapp\\sendapp\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{D9479834-1AA3-4EF3-B2DA-76A9F62EEBCA}|SendApp\\SendApp.csproj|solutionrelative:sendapp\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9AC1FC9B-B8E6-46AE-A7FD-F82D922BAE14}|Infrastructure\\Infrastructure.csproj|c:\\users\\lucas\\source\\repos\\lucas56lima\\sendapp\\infrastructure\\context\\sendappcontextfactory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9AC1FC9B-B8E6-46AE-A7FD-F82D922BAE14}|Infrastructure\\Infrastructure.csproj|solutionrelative:infrastructure\\context\\sendappcontextfactory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9AC1FC9B-B8E6-46AE-A7FD-F82D922BAE14}|Infrastructure\\Infrastructure.csproj|c:\\users\\lucas\\source\\repos\\lucas56lima\\sendapp\\infrastructure\\context\\sendappcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9AC1FC9B-B8E6-46AE-A7FD-F82D922BAE14}|Infrastructure\\Infrastructure.csproj|solutionrelative:infrastructure\\context\\sendappcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9AC1FC9B-B8E6-46AE-A7FD-F82D922BAE14}|Infrastructure\\Infrastructure.csproj|c:\\users\\lucas\\source\\repos\\lucas56lima\\sendapp\\infrastructure\\repositories\\schedulingrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9AC1FC9B-B8E6-46AE-A7FD-F82D922BAE14}|Infrastructure\\Infrastructure.csproj|solutionrelative:infrastructure\\repositories\\schedulingrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9AC1FC9B-B8E6-46AE-A7FD-F82D922BAE14}|Infrastructure\\Infrastructure.csproj|c:\\users\\lucas\\source\\repos\\lucas56lima\\sendapp\\infrastructure\\repositories\\storerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9AC1FC9B-B8E6-46AE-A7FD-F82D922BAE14}|Infrastructure\\Infrastructure.csproj|solutionrelative:infrastructure\\repositories\\storerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{28961964-DCE0-49B7-9C07-96AEAFFAE530}|Service\\Service.csproj|c:\\users\\lucas\\source\\repos\\lucas56lima\\sendapp\\service\\services\\schedulingservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{28961964-DCE0-49B7-9C07-96AEAFFAE530}|Service\\Service.csproj|solutionrelative:service\\services\\schedulingservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E2CDD5CF-8DC0-46BE-917D-A48DD062D45F}|Domain\\Domain.csproj|c:\\users\\lucas\\source\\repos\\lucas56lima\\sendapp\\domain\\interfaces\\ischedulingrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E2CDD5CF-8DC0-46BE-917D-A48DD062D45F}|Domain\\Domain.csproj|solutionrelative:domain\\interfaces\\ischedulingrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{28961964-DCE0-49B7-9C07-96AEAFFAE530}|Service\\Service.csproj|c:\\users\\lucas\\source\\repos\\lucas56lima\\sendapp\\service\\services\\storeservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{28961964-DCE0-49B7-9C07-96AEAFFAE530}|Service\\Service.csproj|solutionrelative:service\\services\\storeservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E2CDD5CF-8DC0-46BE-917D-A48DD062D45F}|Domain\\Domain.csproj|c:\\users\\lucas\\source\\repos\\lucas56lima\\sendapp\\domain\\interfaces\\ischedulingservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E2CDD5CF-8DC0-46BE-917D-A48DD062D45F}|Domain\\Domain.csproj|solutionrelative:domain\\interfaces\\ischedulingservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E2CDD5CF-8DC0-46BE-917D-A48DD062D45F}|Domain\\Domain.csproj|c:\\users\\lucas\\source\\repos\\lucas56lima\\sendapp\\domain\\interfaces\\istoreservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E2CDD5CF-8DC0-46BE-917D-A48DD062D45F}|Domain\\Domain.csproj|solutionrelative:domain\\interfaces\\istoreservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E2CDD5CF-8DC0-46BE-917D-A48DD062D45F}|Domain\\Domain.csproj|c:\\users\\lucas\\source\\repos\\lucas56lima\\sendapp\\domain\\interfaces\\istorerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E2CDD5CF-8DC0-46BE-917D-A48DD062D45F}|Domain\\Domain.csproj|solutionrelative:domain\\interfaces\\istorerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -22,8 +58,125 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 0,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Domain",
+              "DocumentMoniker": "C:\\Users\\lucas\\Source\\Repos\\Lucas56lima\\SendApp\\Domain\\Domain.csproj",
+              "RelativeDocumentMoniker": "Domain\\Domain.csproj",
+              "ToolTip": "C:\\Users\\lucas\\Source\\Repos\\Lucas56lima\\SendApp\\Domain\\Domain.csproj",
+              "RelativeToolTip": "Domain\\Domain.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-01-06T23:39:32.684Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\lucas\\source\\repos\\Lucas56lima\\SendApp\\SendApp\\Program.cs",
+              "RelativeDocumentMoniker": "SendApp\\Program.cs",
+              "ToolTip": "C:\\Users\\lucas\\source\\repos\\Lucas56lima\\SendApp\\SendApp\\Program.cs",
+              "RelativeToolTip": "SendApp\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-06T23:38:37.699Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "SendAppContextFactory.cs",
+              "DocumentMoniker": "C:\\Users\\lucas\\source\\repos\\Lucas56lima\\SendApp\\Infrastructure\\Context\\SendAppContextFactory.cs",
+              "RelativeDocumentMoniker": "Infrastructure\\Context\\SendAppContextFactory.cs",
+              "ToolTip": "C:\\Users\\lucas\\source\\repos\\Lucas56lima\\SendApp\\Infrastructure\\Context\\SendAppContextFactory.cs",
+              "RelativeToolTip": "Infrastructure\\Context\\SendAppContextFactory.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-06T23:34:28.749Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "SendAppContext.cs",
+              "DocumentMoniker": "C:\\Users\\lucas\\source\\repos\\Lucas56lima\\SendApp\\Infrastructure\\Context\\SendAppContext.cs",
+              "RelativeDocumentMoniker": "Infrastructure\\Context\\SendAppContext.cs",
+              "ToolTip": "C:\\Users\\lucas\\source\\repos\\Lucas56lima\\SendApp\\Infrastructure\\Context\\SendAppContext.cs",
+              "RelativeToolTip": "Infrastructure\\Context\\SendAppContext.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAvAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-06T23:29:06.426Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "StoreService.cs",
+              "DocumentMoniker": "C:\\Users\\lucas\\source\\repos\\Lucas56lima\\SendApp\\Service\\Services\\StoreService.cs",
+              "RelativeDocumentMoniker": "Service\\Services\\StoreService.cs",
+              "ToolTip": "C:\\Users\\lucas\\source\\repos\\Lucas56lima\\SendApp\\Service\\Services\\StoreService.cs",
+              "RelativeToolTip": "Service\\Services\\StoreService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAA9AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-06T23:26:26.301Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "SchedulingService.cs",
+              "DocumentMoniker": "C:\\Users\\lucas\\source\\repos\\Lucas56lima\\SendApp\\Service\\Services\\SchedulingService.cs",
+              "RelativeDocumentMoniker": "Service\\Services\\SchedulingService.cs",
+              "ToolTip": "C:\\Users\\lucas\\source\\repos\\Lucas56lima\\SendApp\\Service\\Services\\SchedulingService.cs",
+              "RelativeToolTip": "Service\\Services\\SchedulingService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAuAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-06T23:26:19.228Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "StoreRepository.cs",
+              "DocumentMoniker": "C:\\Users\\lucas\\source\\repos\\Lucas56lima\\SendApp\\Infrastructure\\Repositories\\StoreRepository.cs",
+              "RelativeDocumentMoniker": "Infrastructure\\Repositories\\StoreRepository.cs",
+              "ToolTip": "C:\\Users\\lucas\\source\\repos\\Lucas56lima\\SendApp\\Infrastructure\\Repositories\\StoreRepository.cs",
+              "RelativeToolTip": "Infrastructure\\Repositories\\StoreRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAA4AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-06T23:26:11.966Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "SchedulingRepository.cs",
+              "DocumentMoniker": "C:\\Users\\lucas\\source\\repos\\Lucas56lima\\SendApp\\Infrastructure\\Repositories\\SchedulingRepository.cs",
+              "RelativeDocumentMoniker": "Infrastructure\\Repositories\\SchedulingRepository.cs",
+              "ToolTip": "C:\\Users\\lucas\\source\\repos\\Lucas56lima\\SendApp\\Infrastructure\\Repositories\\SchedulingRepository.cs",
+              "RelativeToolTip": "Infrastructure\\Repositories\\SchedulingRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAzAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-06T23:26:04.709Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "ISchedulingService.cs",
+              "DocumentMoniker": "C:\\Users\\lucas\\source\\repos\\Lucas56lima\\SendApp\\Domain\\Interfaces\\ISchedulingService.cs",
+              "RelativeDocumentMoniker": "Domain\\Interfaces\\ISchedulingService.cs",
+              "ToolTip": "C:\\Users\\lucas\\source\\repos\\Lucas56lima\\SendApp\\Domain\\Interfaces\\ISchedulingService.cs",
+              "RelativeToolTip": "Domain\\Interfaces\\ISchedulingService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-06T23:24:15.447Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:128:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
@@ -34,40 +187,42 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Store.cs",
-              "DocumentMoniker": "C:\\Users\\Usu\u00E1rio\\source\\repos\\SendApp\\Domain\\Entities\\Store.cs",
-              "RelativeDocumentMoniker": "Domain\\Entities\\Store.cs",
-              "ToolTip": "C:\\Users\\Usu\u00E1rio\\source\\repos\\SendApp\\Domain\\Entities\\Store.cs",
-              "RelativeToolTip": "Domain\\Entities\\Store.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAiAAAAAAAAAA==",
+              "DocumentIndex": 7,
+              "Title": "ISchedulingRepository.cs",
+              "DocumentMoniker": "C:\\Users\\lucas\\Source\\Repos\\Lucas56lima\\SendApp\\Domain\\Interfaces\\ISchedulingRepository.cs",
+              "RelativeDocumentMoniker": "Domain\\Interfaces\\ISchedulingRepository.cs",
+              "ToolTip": "C:\\Users\\lucas\\Source\\Repos\\Lucas56lima\\SendApp\\Domain\\Interfaces\\ISchedulingRepository.cs",
+              "RelativeToolTip": "Domain\\Interfaces\\ISchedulingRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-06T18:36:32.371Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "MailService.cs",
-              "DocumentMoniker": "C:\\Users\\Usu\u00E1rio\\source\\repos\\SendApp\\Service\\MailService.cs",
-              "RelativeDocumentMoniker": "Service\\MailService.cs",
-              "ToolTip": "C:\\Users\\Usu\u00E1rio\\source\\repos\\SendApp\\Service\\MailService.cs",
-              "RelativeToolTip": "Service\\MailService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAARAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-03T17:52:32.742Z",
+              "WhenOpened": "2025-01-06T23:07:10.069Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\Usu\u00E1rio\\source\\repos\\SendApp\\SendApp\\Program.cs",
-              "RelativeDocumentMoniker": "SendApp\\Program.cs",
-              "ToolTip": "C:\\Users\\Usu\u00E1rio\\source\\repos\\SendApp\\SendApp\\Program.cs",
-              "RelativeToolTip": "SendApp\\Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAABAAAAAAAAAA==",
+              "DocumentIndex": 10,
+              "Title": "IStoreService.cs",
+              "DocumentMoniker": "C:\\Users\\lucas\\Source\\Repos\\Lucas56lima\\SendApp\\Domain\\Interfaces\\IStoreService.cs",
+              "RelativeDocumentMoniker": "Domain\\Interfaces\\IStoreService.cs",
+              "ToolTip": "C:\\Users\\lucas\\Source\\Repos\\Lucas56lima\\SendApp\\Domain\\Interfaces\\IStoreService.cs",
+              "RelativeToolTip": "Domain\\Interfaces\\IStoreService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-03T16:32:52.766Z"
+              "WhenOpened": "2025-01-06T23:06:28.017Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "IStoreRepository.cs",
+              "DocumentMoniker": "C:\\Users\\lucas\\Source\\Repos\\Lucas56lima\\SendApp\\Domain\\Interfaces\\IStoreRepository.cs",
+              "RelativeDocumentMoniker": "Domain\\Interfaces\\IStoreRepository.cs",
+              "ToolTip": "C:\\Users\\lucas\\Source\\Repos\\Lucas56lima\\SendApp\\Domain\\Interfaces\\IStoreRepository.cs",
+              "RelativeToolTip": "Domain\\Interfaces\\IStoreRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAABHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-06T23:06:05.545Z",
+              "EditorCaption": ""
             }
           ]
         }

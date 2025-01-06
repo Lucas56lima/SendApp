@@ -3,7 +3,7 @@ using System.Net;
 using SharpCompress.Archives;
 using SharpCompress.Common;
 
-namespace Service
+namespace Service.Services
 {
     public class MailService
     {
@@ -11,11 +11,9 @@ namespace Service
         {
             try
             {
-<<<<<<< HEAD
-                SmtpClient smtpClient = new("***.com.br")
-=======
+
+
                 SmtpClient smtpClient = new("smtp.com.br")
->>>>>>> 51bee8023b0dceecf71a8d930cf1687e7689de2a
                 {
                     Port = 0,
                     Credentials = new NetworkCredential(email, password),
@@ -30,11 +28,11 @@ namespace Service
                     IsBodyHtml = false
                 };
 
-<<<<<<< HEAD
+
                 mail.To.Add("emailteste@com.br");
-=======
+
                 mail.To.Add("destinatario@deco.com.br");
->>>>>>> 51bee8023b0dceecf71a8d930cf1687e7689de2a
+
                 Attachment attachment = new(file);
                 mail.Attachments.Add(attachment);
                 smtpClient.Send(mail);
@@ -71,12 +69,12 @@ namespace Service
                         //DateTime now = DateTime.Now;
                         DateTime fileCreation = File.GetLastWriteTime(f);
                         DateTime now = DateTime.Now;
-                        if ((now.Month == 1 && fileCreation.Month == 12) && (now.Year > fileCreation.Year) )
+                        if (now.Month == 1 && fileCreation.Month == 12 && now.Year > fileCreation.Year)
                         {
                             return f.EndsWith(".xml");
                         }
-                        
-                        return f.EndsWith(".xml") 
+
+                        return f.EndsWith(".xml")
                                && fileCreation.Month == now.AddMonths(-1).Month;
                     });
 
@@ -86,7 +84,7 @@ namespace Service
                     {
                         // Adicionando o arquivo diretamente ao arquivo Zip
                         archive.AddEntry(Path.GetFileName(file), file);
-                        
+
                     }
 
                     using (var stream = File.OpenWrite(fileZip))
@@ -94,16 +92,16 @@ namespace Service
                         archive.SaveTo(stream, CompressionType.None);
                     }
 
-<<<<<<< HEAD
-                    Console.WriteLine("Arquivos .zip criados com sucesso!");
-=======
-                    SendMail("seuemail@deco.com.br", "password".", fileZip);
-                }
->>>>>>> 51bee8023b0dceecf71a8d930cf1687e7689de2a
 
-                    SendMail("seuemail@dcom.br", "sua senha", fileZip);
+                    Console.WriteLine("Arquivos .zip criados com sucesso!");
+
+                    SendMail("seuemail@deco.com.br", "password", fileZip);
                 }
-                
+
+
+                SendMail("seuemail@dcom.br", "sua senha", fileZip);
+
+
             }
             catch (Exception ex)
             {
