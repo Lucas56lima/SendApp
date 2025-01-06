@@ -10,3 +10,4 @@ C:\Users\Usuário\source\repos\SendApp\Service\obj\Debug\net8.0\refint\Service.d
 C:\Users\Usuário\source\repos\SendApp\Service\obj\Debug\net8.0\Service.pdb
 C:\Users\Usuário\source\repos\SendApp\Service\obj\Debug\net8.0\ref\Service.dll
 C:\Users\Usuário\source\repos\SendApp\Service\obj\Debug\net8.0\Service.csproj.AssemblyReference.cache
+C:\Users\Usuário\source\repos\SendApp\Service\obj\Debug\net8.0\Service.sourcelink.json

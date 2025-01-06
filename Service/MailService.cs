@@ -11,9 +11,9 @@ namespace Service
         {
             try
             {
-                SmtpClient smtpClient = new("smtp.deco.com.br")
+                SmtpClient smtpClient = new("***.com.br")
                 {
-                    Port = 587,
+                    Port = 0,
                     Credentials = new NetworkCredential(email, password),
                     EnableSsl = false,
                 };
@@ -26,7 +26,7 @@ namespace Service
                     IsBodyHtml = false
                 };
 
-                mail.To.Add("fiscal@deco.com.br");
+                mail.To.Add("emailteste@com.br");
                 Attachment attachment = new(file);
                 mail.Attachments.Add(attachment);
                 smtpClient.Send(mail);
@@ -53,7 +53,7 @@ namespace Service
 
         public void GetFileForPath(string path)
         {
-            string fileZip = @"C:\\Users\\Usuário\\Desktop\\Nova pasta\\Arquivo.zip";
+            string fileZip = @"caminho da pasta";
 
             try
             {
@@ -86,10 +86,11 @@ namespace Service
                         archive.SaveTo(stream, CompressionType.None);
                     }
 
-                    SendMail("lucas.feitosa@deco.com.br", "15975323Lu.", fileZip);
-                }
+                    Console.WriteLine("Arquivos .zip criados com sucesso!");
 
-                Console.WriteLine("Arquivos .zip criados com sucesso!");
+                    SendMail("seuemail@dcom.br", "sua senha", fileZip);
+                }
+                
             }
             catch (Exception ex)
             {

@@ -38,3 +38,4 @@ C:\Users\Usuário\source\repos\SendApp\SendApp\bin\Debug\net8.0\Service.dll
 C:\Users\Usuário\source\repos\SendApp\SendApp\bin\Debug\net8.0\Service.pdb
 C:\Users\Usuário\source\repos\SendApp\SendApp\bin\Debug\net8.0\SharpCompress.dll
 C:\Users\Usuário\source\repos\SendApp\SendApp\bin\Debug\net8.0\ZstdSharp.dll
+C:\Users\Usuário\source\repos\SendApp\SendApp\obj\Debug\net8.0\SendApp.sourcelink.json
