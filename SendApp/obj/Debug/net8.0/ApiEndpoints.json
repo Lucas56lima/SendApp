@@ -1,1 +1,34 @@
-[]
+[
+  {
+    "ContainingType": "SendApp.Controllers.SchedulingController",
+    "Method": "GetSchedulingByStatusAsync",
+    "RelativePath": "api/Scheduling/GetSchedulingForStatusAsync",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "status",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SendApp.Controllers.SchedulingController",
+    "Method": "PostSchedulingAsync",
+    "RelativePath": "api/Scheduling/PostSchedulingAsync",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "scheduling",
+        "Type": "Domain.Entities.Scheduling",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  }
+]

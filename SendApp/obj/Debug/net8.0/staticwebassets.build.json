@@ -1,11 +1,12 @@
 {
   "Version": 1,
-  "Hash": "Okm1g0mv1zCJu02MFuKAznzeLz9DU6JIiANuGMQOQh4=",
+  "Hash": "rLd8s310QAWXCur7b+p3dZrR1UdRi/qjIUYTNe5swSQ=",
   "Source": "SendApp",
   "BasePath": "_content/SendApp",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
   "DiscoveryPatterns": [],
-  "Assets": []
+  "Assets": [],
+  "Endpoints": []
 }

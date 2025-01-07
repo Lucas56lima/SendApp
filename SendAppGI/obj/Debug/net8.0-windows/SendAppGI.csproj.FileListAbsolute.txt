@@ -1,0 +1,17 @@
+C:\Users\Usuário\source\repos\SendApp\SendAppGI\bin\Debug\net8.0-windows\SendAppGI.exe
+C:\Users\Usuário\source\repos\SendApp\SendAppGI\bin\Debug\net8.0-windows\SendAppGI.deps.json
+C:\Users\Usuário\source\repos\SendApp\SendAppGI\bin\Debug\net8.0-windows\SendAppGI.runtimeconfig.json
+C:\Users\Usuário\source\repos\SendApp\SendAppGI\bin\Debug\net8.0-windows\SendAppGI.dll
+C:\Users\Usuário\source\repos\SendApp\SendAppGI\bin\Debug\net8.0-windows\SendAppGI.pdb
+C:\Users\Usuário\source\repos\SendApp\SendAppGI\obj\Debug\net8.0-windows\SendAppGI.Initial.resources
+C:\Users\Usuário\source\repos\SendApp\SendAppGI\obj\Debug\net8.0-windows\SendAppGI.csproj.GenerateResource.cache
+C:\Users\Usuário\source\repos\SendApp\SendAppGI\obj\Debug\net8.0-windows\SendAppGI.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Usuário\source\repos\SendApp\SendAppGI\obj\Debug\net8.0-windows\SendAppGI.AssemblyInfoInputs.cache
+C:\Users\Usuário\source\repos\SendApp\SendAppGI\obj\Debug\net8.0-windows\SendAppGI.AssemblyInfo.cs
+C:\Users\Usuário\source\repos\SendApp\SendAppGI\obj\Debug\net8.0-windows\SendAppGI.csproj.CoreCompileInputs.cache
+C:\Users\Usuário\source\repos\SendApp\SendAppGI\obj\Debug\net8.0-windows\SendAppGI.sourcelink.json
+C:\Users\Usuário\source\repos\SendApp\SendAppGI\obj\Debug\net8.0-windows\SendAppGI.dll
+C:\Users\Usuário\source\repos\SendApp\SendAppGI\obj\Debug\net8.0-windows\refint\SendAppGI.dll
+C:\Users\Usuário\source\repos\SendApp\SendAppGI\obj\Debug\net8.0-windows\SendAppGI.pdb
+C:\Users\Usuário\source\repos\SendApp\SendAppGI\obj\Debug\net8.0-windows\SendAppGI.genruntimeconfig.cache
+C:\Users\Usuário\source\repos\SendApp\SendAppGI\obj\Debug\net8.0-windows\ref\SendAppGI.dll

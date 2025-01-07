@@ -11,8 +11,6 @@ namespace Service.Services
         {
             try
             {
-
-
                 SmtpClient smtpClient = new("smtp.com.br")
                 {
                     Port = 0,
@@ -56,57 +54,6 @@ namespace Service.Services
                 }
             }
         }
-
-        public void GetFileForPath(string path)
-        {
-            string fileZip = @"caminho da pasta";
-
-            try
-            {
-                var filterFiles = Directory.EnumerateFiles(path, "*.xml", SearchOption.AllDirectories)
-                    .Where(f =>
-                    {
-                        //DateTime now = DateTime.Now;
-                        DateTime fileCreation = File.GetLastWriteTime(f);
-                        DateTime now = DateTime.Now;
-                        if (now.Month == 1 && fileCreation.Month == 12 && now.Year > fileCreation.Year)
-                        {
-                            return f.EndsWith(".xml");
-                        }
-
-                        return f.EndsWith(".xml")
-                               && fileCreation.Month == now.AddMonths(-1).Month;
-                    });
-
-                using (var archive = ArchiveFactory.Create(ArchiveType.Zip))
-                {
-                    foreach (var file in filterFiles)
-                    {
-                        // Adicionando o arquivo diretamente ao arquivo Zip
-                        archive.AddEntry(Path.GetFileName(file), file);
-
-                    }
-
-                    using (var stream = File.OpenWrite(fileZip))
-                    {
-                        archive.SaveTo(stream, CompressionType.None);
-                    }
-
-
-                    Console.WriteLine("Arquivos .zip criados com sucesso!");
-
-                    SendMail("seuemail@deco.com.br", "password", fileZip);
-                }
-
-
-                SendMail("seuemail@dcom.br", "sua senha", fileZip);
-
-
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Erro ao ler arquivos: {ex.Message}"); // Corrigido para exibir a exceção corretamente
-            }
-        }
+        
     }
 }

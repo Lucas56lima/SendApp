@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{9AC1FC9B-B8E6-46AE-A7FD-F82D922BAE14}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SendAppGI", "SendAppGI\SendAppGI.csproj", "{26CC0861-7963-4563-92AA-7CC0BD97FAFF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{9AC1FC9B-B8E6-46AE-A7FD-F82D922BAE14}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9AC1FC9B-B8E6-46AE-A7FD-F82D922BAE14}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9AC1FC9B-B8E6-46AE-A7FD-F82D922BAE14}.Release|Any CPU.Build.0 = Release|Any CPU
+		{26CC0861-7963-4563-92AA-7CC0BD97FAFF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{26CC0861-7963-4563-92AA-7CC0BD97FAFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{26CC0861-7963-4563-92AA-7CC0BD97FAFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{26CC0861-7963-4563-92AA-7CC0BD97FAFF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

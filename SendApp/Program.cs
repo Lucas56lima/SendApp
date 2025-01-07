@@ -1,5 +1,7 @@
 using Domain.Interfaces;
+using Infrastructure.Context;
 using Infrastructure.Repositories;
+using Microsoft.EntityFrameworkCore;
 using Service.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,6 +16,10 @@ builder.Services.AddScoped<IStoreRepository, StoreRepository>();
 builder.Services.AddScoped<IStoreService, StoreService>();
 builder.Services.AddScoped<ISchedulingRepository, SchedulingRepository>();
 builder.Services.AddScoped<ISchedulingService, SchedulingService>();
+
+var conectionDefault = builder.Configuration.GetConnectionString("ConnectionDefault");
+builder.Services.AddDbContext<SendAppContext>(options =>
+    options.UseSqlite(conectionDefault));
 
 var app = builder.Build();
 var mailService = new MailService();

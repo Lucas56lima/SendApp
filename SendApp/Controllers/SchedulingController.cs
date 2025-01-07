@@ -1,83 +1,29 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Domain.Entities;
+using Domain.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace SendApp.Controllers
 {
+    [ApiController]
+    [Route("api/[controller]")]
     public class SchedulingController : Controller
     {
-        // GET: SchedulingController
-        public ActionResult Index()
+        private readonly ISchedulingService _service;
+        public SchedulingController(ISchedulingService service)
         {
-            return View();
+            _service = service;
+        }
+        
+        [HttpPost("PostSchedulingAsync")]        
+        public async Task<IActionResult> PostSchedulingAsync([FromBody] Scheduling scheduling)
+        {
+            return Ok(await _service.PostSchedulingAsync(scheduling));
         }
 
-        // GET: SchedulingController/Details/5
-        public ActionResult Details(int id)
+        [HttpGet("GetSchedulingForStatusAsync")]
+        public async Task<IActionResult> GetSchedulingByStatusAsync(string status)
         {
-            return View();
-        }
-
-        // GET: SchedulingController/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: SchedulingController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: SchedulingController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: SchedulingController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: SchedulingController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: SchedulingController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            return Ok(await _service.GetSchedulingByStatusAsync(status));
         }
     }
 }
