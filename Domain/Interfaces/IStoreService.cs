@@ -6,7 +6,7 @@ namespace Domain.Interfaces
     {
         Task<Store> PostStoreAsync(Store store);
         Task<IEnumerable<Store>> GetStoresAsync();
-        Task<IEnumerable<Store>> GetStoresByNameAsync(string name);
-        Task<IEnumerable<Store>> GetStoresByStatusAsync(string status);
+        Task<Store> GetStoresByNameAsync(string name);
+        Task<Store> GetStoresByIdAsync(int id);        
     }
 }

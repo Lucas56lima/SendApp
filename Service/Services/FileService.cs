@@ -1,18 +1,14 @@
-﻿using SharpCompress.Archives;
+﻿using Domain.Entities;
+using SharpCompress.Archives;
 using SharpCompress.Common;
 using System.IO.Compression;
 
 namespace Service.Services
 {
-    public class FileService
+    public class FileService(MailService mailService)
     {
-        private readonly MailService _mailService;
-
-        public FileService(MailService mailService)
-        {
-            _mailService = mailService;
-        }
-
+        private readonly MailService _mailService = mailService;       
+        public Store Store { get; private set; }
         public void GetFileForPath(string path)
         {
             string fileZip = @"caminho da pasta";
@@ -21,8 +17,7 @@ namespace Service.Services
             {
                 var filterFiles = Directory.EnumerateFiles(path, "*.xml", SearchOption.AllDirectories)
                     .Where(f =>
-                    {
-                        //DateTime now = DateTime.Now;
+                    {                        
                         DateTime fileCreation = File.GetLastWriteTime(f);
                         DateTime now = DateTime.Now;
                         if (now.Month == 1 && fileCreation.Month == 12 && now.Year > fileCreation.Year)
@@ -51,7 +46,6 @@ namespace Service.Services
 
                     _mailService.SendMail("seuemail@deco.com.br", "password", fileZip);
                 }
-
 
                 _mailService.SendMail("seuemail@dcom.br", "sua senha", fileZip);
 
@@ -91,21 +85,19 @@ namespace Service.Services
                 UpdateZipFileName(filePath);
 
                 // Adiciona o XML ao ZIP
-                using (FileStream zipToOpen = new FileStream(filePath, FileMode.OpenOrCreate))
-                using (ZipArchive archive = new ZipArchive(zipToOpen, ZipArchiveMode.Update))
-                {
-                    string fileName = Path.GetFileName(filePath);
+                using FileStream zipToOpen = new FileStream(filePath, FileMode.OpenOrCreate);
+                using ZipArchive archive = new ZipArchive(zipToOpen, ZipArchiveMode.Update);
+                string fileName = Path.GetFileName(filePath);
 
-                    // Verifica se o arquivo já está no ZIP
-                    if (archive.GetEntry(fileName) == null)
-                    {
-                        archive.CreateEntryFromFile(filePath, fileName);
-                        Console.WriteLine($"Arquivo {fileName} adicionado ao ZIP.");
-                    }
-                    else
-                    {
-                        Console.WriteLine($"Arquivo {fileName} já está no ZIP.");
-                    }
+                // Verifica se o arquivo já está no ZIP
+                if (archive.GetEntry(fileName) == null)
+                {
+                    archive.CreateEntryFromFile(filePath, fileName);
+                    Console.WriteLine($"Arquivo {fileName} adicionado ao ZIP.");
+                }
+                else
+                {
+                    Console.WriteLine($"Arquivo {fileName} já está no ZIP.");
                 }
             }
             catch (Exception ex)

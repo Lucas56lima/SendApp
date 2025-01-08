@@ -2,7 +2,7 @@
   {
     "ContainingType": "SendApp.Controllers.SchedulingController",
     "Method": "GetSchedulingByStatusAsync",
-    "RelativePath": "api/Scheduling/GetSchedulingForStatusAsync",
+    "RelativePath": "api/Scheduling/GetSchedulingByStatusAsync",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -26,6 +26,38 @@
       {
         "Name": "scheduling",
         "Type": "Domain.Entities.Scheduling",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SendApp.Controllers.StoreController",
+    "Method": "GetStoresByIdAsync",
+    "RelativePath": "api/Store/GetStoreByIdAsync",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SendApp.Controllers.StoreController",
+    "Method": "PostStoreAsync",
+    "RelativePath": "api/Store/PostStoreAsync",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "store",
+        "Type": "Domain.Entities.Store",
         "IsRequired": true
       }
     ],

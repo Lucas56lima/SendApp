@@ -3,26 +3,55 @@ using Domain.Interfaces;
 
 namespace Service.Services
 {
-    public class StoreService : IStoreService
+    public class StoreService(IStoreRepository repository) : IStoreService
     {
-        Task<IEnumerable<Store>> IStoreService.GetStoresAsync()
+        private readonly IStoreRepository _repository = repository;
+        public async Task<Store> GetStoresByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            var storeDb = await _repository.GetStoresByIdAsync(id);
+            if (storeDb == null)
+                return null;
+
+            return storeDb;
         }
 
-        Task<IEnumerable<Store>> IStoreService.GetStoresByNameAsync(string name)
+        public async Task<Store> GetStoresByNameAsync(string name)
         {
-            throw new NotImplementedException();
+            var storeDb = await _repository.GetStoresByNameAsync(name);
+            if (storeDb == null)
+                return null;
+
+            return storeDb;
         }
 
-        Task<IEnumerable<Store>> IStoreService.GetStoresByStatusAsync(string status)
+        public Task<IEnumerable<Store>> GetStoresAsync()
         {
             throw new NotImplementedException();
+        }       
+
+        public async Task<Store> PostStoreAsync(Store store)
+        {
+            ArgumentNullException.ThrowIfNull(store);
+            ValidateStrings(store);
+            return await _repository.PostStoreAsync(store);
         }
 
-        Task<Store> IStoreService.PostStoreAsync(Store store)
+        public static void ValidateStrings(object obj, string invalidValue = "string")
         {
-            throw new NotImplementedException();
+            if (obj == null)
+                ArgumentNullException.ThrowIfNull(obj);
+
+            var invalidProperties = obj.GetType()
+                .GetProperties()
+                .Where(p => p.PropertyType == typeof(string)) 
+                .Where(p => p.GetValue(obj)?.ToString() == invalidValue) 
+                .Select(p => p.Name)
+                .ToList();
+
+            if (invalidProperties.Any())
+            {
+                ArgumentNullException.ThrowIfNull($"The following properties have invalid values: {string.Join(", ", invalidProperties)}");
+            }
         }
     }
 }

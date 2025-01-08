@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SendAppGI")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+14a308b531d43cb7d3204c7b4a901848031f1591")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b90090a5f6347fd61f2b5a9fd33676ff36cd192f")]
 [assembly: System.Reflection.AssemblyProductAttribute("SendAppGI")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SendAppGI")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

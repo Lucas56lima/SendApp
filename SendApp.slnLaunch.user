@@ -1,0 +1,15 @@
+[
+  {
+    "Name": "Novo Perfil",
+    "Projects": [
+      {
+        "Path": "SendApp\\SendApp.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "SendAppGI\\SendAppGI.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]

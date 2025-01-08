@@ -1,83 +1,31 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Domain.Entities;
+using Domain.Interfaces;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace SendApp.Controllers
 {
+    [ApiController]
+    [Route("api/[controller]")]
     public class StoreController : Controller
     {
-        // GET: StoreController
-        public ActionResult Index()
+        private readonly IStoreService _service;
+        public StoreController(IStoreService service)
         {
-            return View();
+            _service = service;
         }
 
-        // GET: StoreController/Details/5
-        public ActionResult Details(int id)
+        [HttpPost("PostStoreAsync")]
+        public async Task<IActionResult> PostStoreAsync([FromBody] Store store)
         {
-            return View();
+            return Ok(await _service.PostStoreAsync(store));
         }
 
-        // GET: StoreController/Create
-        public ActionResult Create()
+        [HttpGet("GetStoreByIdAsync")]
+        public async Task<IActionResult> GetStoresByIdAsync(int id)
         {
-            return View();
-        }
-
-        // POST: StoreController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: StoreController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: StoreController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: StoreController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: StoreController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            return Ok(await _service.GetStoresByIdAsync(id));
         }
     }
 }
+

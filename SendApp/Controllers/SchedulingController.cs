@@ -20,7 +20,7 @@ namespace SendApp.Controllers
             return Ok(await _service.PostSchedulingAsync(scheduling));
         }
 
-        [HttpGet("GetSchedulingForStatusAsync")]
+        [HttpGet("GetSchedulingByStatusAsync")]
         public async Task<IActionResult> GetSchedulingByStatusAsync(string status)
         {
             return Ok(await _service.GetSchedulingByStatusAsync(status));

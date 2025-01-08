@@ -1,3 +1,7 @@
+using Domain.Interfaces;
+using Microsoft.Extensions.DependencyInjection;
+using Service.Services;
+
 namespace SendAppGI
 {
     internal static class Program
@@ -12,6 +16,11 @@ namespace SendAppGI
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
             Application.Run(new Initial());
+        }
+        private static void ConfigureServices(IServiceCollection services)
+        {
+            services.AddScoped<IStoreService, StoreService>();
+            services.AddScoped<IStoreRepository, IStoreRepository>();
         }
     }
 }
