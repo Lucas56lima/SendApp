@@ -1,7 +1,8 @@
 ﻿using Domain.Entities;
-using Service.Services;
-using System.Net.Http.Json;
-using System.Text.Json;
+using SendAppGI.Services;
+using SendAppGI.Viewsmodels;
+using System.ComponentModel;
+
 
 namespace SendAppGI
 {
@@ -10,13 +11,27 @@ namespace SendAppGI
         private SplitContainer splitContainer;
         private Button btnInicio, btnDados, btnLogs, btnEditar;
         private TextBox txtNome, txtEmail, txtSenha;
-        private Label lblNome, lblEmail, lblSenha;
-        public StoreService storeService;
-        public SchedulingService schedulingService;
-        public HttpClient client = new();
-        public Initial()
+        private Label lblNome, lblEmail, lblSenha;        
+        private readonly InitialViewModel viewModel;
+        
+               
+        public Initial(DataStoreService dataStoreService)
         {
-            InitializeComponent();
+            viewModel = new InitialViewModel(dataStoreService);
+            viewModel.Store = new Store();
+            viewModel.LoadStoreCommand.Execute(null);
+            viewModel.PropertyChanged += ViewModel_PropertyChanged;
+            InitializeComponent();   
+        }
+
+        private void ViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(viewModel.Store))
+            {
+                txtNome.Text = viewModel.Store?.Name;
+                txtEmail.Text = viewModel.Store?.Email;
+                txtSenha.Text = viewModel.Store?.Password;
+            }
         }
 
         private void InitializeComponent()
@@ -24,9 +39,8 @@ namespace SendAppGI
             // Configuração geral da janela
             Text = "Configurações";
             StartPosition = FormStartPosition.CenterScreen;
-            Size = new Size(500, 300);
+            Size = new Size(500, 300);            
 
-            // Configuração do SplitContainer
             splitContainer = new SplitContainer
             {
                 Dock = DockStyle.Fill,
@@ -54,8 +68,10 @@ namespace SendAppGI
 
             btnEditar = CreateButton("Editar", 80, 140, BtnEditar_Click);
 
-            splitContainer.Panel2.Controls.AddRange(new Control[] { lblNome, txtNome, lblEmail, txtEmail, lblSenha, txtSenha, btnEditar });
+            splitContainer.Panel2.Controls.AddRange(new Control[] { lblNome, txtNome, lblEmail, txtEmail, lblSenha, txtSenha, btnEditar });            
         }
+
+
 
         private Button CreateButton(string text, int x, int y, EventHandler onClick)
         {
@@ -92,19 +108,25 @@ namespace SendAppGI
 
         private void BtnInicio_Click(object sender, EventArgs e)
         {
+            // Limpa os controles existentes no painel
             ClearPanel2();
-            lblNome = CreateLabel("Nome:", 20, 20);
-            txtNome = CreateTextBox(80, 20, true);
 
-            lblEmail = CreateLabel("E-mail:", 20, 60);
-            txtEmail = CreateTextBox(80, 60, true);
+            viewModel.LoadStoreFromCacheCommand.Execute(null);
+            var cachedStore = viewModel.Store;
 
-            lblSenha = CreateLabel("Senha:", 20, 100);
-            txtSenha = CreateTextBox(80, 100, true, true);
+            if (cachedStore != null)
+            {
+                FillControls(cachedStore);
+            }
+            else
+            {
+                // Caso os dados não estejam no cache, faz a requisição ao serviço
+                viewModel.LoadStoreCommand.Execute(null);
 
-            btnEditar = CreateButton("Editar", 80, 140, BtnEditar_Click);
-
-            splitContainer.Panel2.Controls.AddRange(new Control[] { lblNome, txtNome, lblEmail, txtEmail, lblSenha, txtSenha, btnEditar });
+                // Assina o evento PropertyChanged para capturar alterações no ViewModel
+                viewModel.PropertyChanged += ViewModel_PropertyChanged;
+            }            
+            
         }
 
         private void BtnDados_Click(object sender, EventArgs e)
@@ -116,7 +138,6 @@ namespace SendAppGI
             var lblPath = CreateLabel("Local:", 20, 60);
             var txtPath = CreateTextBox(80, 60, true);
 
-            // Criando o botão para abrir o FolderBrowserDialog
             var btnBrowse = new Button
             {
                 Text = "...",
@@ -145,10 +166,12 @@ namespace SendAppGI
                 Width = 60,
                 Height = 30,
                 Left = txtPath.Left + (txtPath.Width - 60) / 2,  // Centralizando horizontalmente
-                Top = txtPath.Top + 40  // Ajuste de acordo com sua necessidade
+                Top = txtPath.Top + 40 // Ajuste de acordo com sua necessidade
             };
 
-            // Variável de controle para saber se está no modo de edição
+            // Variáveis de controle
+            Button btnSave = null;
+            Button btnCancel = null;
             bool isEditing = false;
 
             // Evento de clique para alternar entre modo leitura e edição
@@ -156,24 +179,73 @@ namespace SendAppGI
             {
                 if (isEditing)
                 {
-                    // Desativa a edição e o FolderBrowserDialog
+                    // Alternar para modo visualização
                     txtPath.ReadOnly = true;
                     btnBrowse.Enabled = false;
                     btnEdit.Text = "Editar";
+
+                    // Remove os botões Salvar e Cancelar
+                    splitContainer.Panel2.Controls.Remove(btnSave);
+                    splitContainer.Panel2.Controls.Remove(btnCancel);
                 }
                 else
                 {
-                    // Ativa a edição e o FolderBrowserDialog
+                    // Alternar para modo edição
                     txtPath.ReadOnly = false;
                     btnBrowse.Enabled = true;
-                    btnEdit.Text = "Salvar";
+                    btnEdit.Text = "Editar";
+                    btnEdit.Visible = false;
+
+                    // Criar botão Salvar
+                    btnSave = new Button
+                    {
+                        Text = "Salvar",
+                        Width = 60,
+                        Height = 30,
+                        Left = btnEdit.Left - 70,
+                        Top = btnEdit.Top
+                    };
+
+                    // Criar botão Cancelar
+                    btnCancel = new Button
+                    {
+                        Text = "Cancelar",
+                        Width = 60,
+                        Height = 30,
+                        Left = btnEdit.Right + 10,
+                        Top = btnEdit.Top
+                    };
+
+                    // Eventos dos botões Salvar e Cancelar
+                    btnSave.Click += (saveSender, saveEv) =>
+                    {
+                        MessageBox.Show("Alterações salvas!");
+                        btnEdit.PerformClick(); // Volta para o modo de visualização
+                    };
+
+                    btnCancel.Click += (cancelSender, cancelEv) =>
+                    {                        
+                        txtPath.ReadOnly = true;
+                        btnBrowse.Enabled = false;
+                        btnEdit.Text = "Editar";
+                        btnEdit.Visible = true;
+                        splitContainer.Panel2.Controls.Remove(btnSave);
+                        splitContainer.Panel2.Controls.Remove(btnCancel);
+                        isEditing = false; // Volta para o modo de visualização
+                    };
+
+                    // Adicionar os botões Salvar e Cancelar ao painel
+                    splitContainer.Panel2.Controls.Add(btnSave);
+                    splitContainer.Panel2.Controls.Add(btnCancel);
                 }
-                // Alterna o estado de edição
+
+                // Alternar estado de edição
                 isEditing = !isEditing;
             };
 
             splitContainer.Panel2.Controls.AddRange(new Control[] { lblServer, txtServer, lblPath, txtPath, btnBrowse, btnEdit });
         }
+
 
 
         private void BtnLogs_Click(object sender, EventArgs e)
@@ -203,21 +275,44 @@ namespace SendAppGI
             splitContainer.Panel2.Controls.AddRange(new Control[] { btnSave, btnCancel });
         }
 
-        private async void BtnSave_Click(object sender, EventArgs e)
+        private void BtnSave_Click(object sender, EventArgs e)
         {
-            Store store = new Store
+            // Certifique-se de que o viewModel não está nulo
+            if (viewModel == null)
             {
-                Name = txtNome.Text,
-                Cnpj = "00000000",
-                Email = txtEmail.Text,
-                Password = txtSenha.Text,
-                Path = "C:\\Users\\Usuário\\Desktop\\Nova pasta"
-            };
-            await PostStoreAsync(store);
+                MessageBox.Show("Erro: ViewModel não foi inicializado.");
+                return;
+            }
+
+            // Atualize o Store no ViewModel com os valores inseridos nas TextBox
+            viewModel.Store.Name = txtNome.Text;
+            viewModel.Store.Cnpj = "00000000";  // Se você deseja deixar um valor fixo
+            viewModel.Store.Email = txtEmail.Text;
+            viewModel.Store.Password = txtSenha.Text;
+            viewModel.Store.Path = "C:\\Users\\Usuário\\Desktop\\Nova pasta";  // O caminho fixo também pode ser definido aqui
+
+            // Defina os campos como somente leitura após salvar
             txtNome.ReadOnly = txtEmail.ReadOnly = txtSenha.ReadOnly = true;
-            MessageBox.Show("Dados salvos com sucesso.");
+
+            // Verifique se o comando SaveStoreCommand pode ser executado
+            if (viewModel.SaveStoreCommand.CanExecute(null))
+            {
+                // Execute o comando de salvar
+                viewModel.SaveStoreCommand.Execute(null);
+
+                // Exiba a mensagem de sucesso
+                MessageBox.Show("Dados salvos com sucesso.");
+            }
+            else
+            {
+                // Caso o comando não possa ser executado, exiba uma mensagem de erro
+                MessageBox.Show("Erro: Não foi possível salvar os dados.");
+            }
+
+            // Chame o método de cancelamento após salvar
             BtnCancel_Click(null, null);
         }
+
 
         private void BtnCancel_Click(object sender, EventArgs e)
         {
@@ -234,13 +329,27 @@ namespace SendAppGI
                 splitContainer.Panel2.Controls.Remove(control);
         }
 
-        public async Task PostStoreAsync(Store store)
+        private void FillControls(Store store)
         {
-            using HttpResponseMessage response = await client.PostAsJsonAsync("https://localhost:7185/api/Store/PostStoreAsync", store);
+            // Preenche os controles com os dados recuperados do cache
+            lblNome = CreateLabel("Nome:", 20, 20);
+            txtNome = CreateTextBox(80, 20, true);
+            txtNome.Text = store.Name; // Exemplo de preenchimento
+
+            lblEmail = CreateLabel("E-mail:", 20, 60);
+            txtEmail = CreateTextBox(80, 60, true);
+            txtEmail.Text = store.Email;
+
+            lblSenha = CreateLabel("Senha:", 20, 100);
+            txtSenha = CreateTextBox(80, 100, true, true);
+            txtSenha.Text = store.Password;
+
+            btnEditar = CreateButton("Editar", 80, 140, BtnEditar_Click);
+
+            splitContainer.Panel2.Controls.AddRange(new Control[] { lblNome, txtNome, lblEmail, txtEmail, lblSenha, txtSenha, btnEditar });
         }
     }
 
-    
 
     public static class Extensions
     {

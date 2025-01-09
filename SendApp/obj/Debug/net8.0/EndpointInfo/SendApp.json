@@ -136,13 +136,6 @@
         "additionalProperties": false
       },
       "Store": {
-        "required": [
-          "cnpj",
-          "email",
-          "name",
-          "password",
-          "path"
-        ],
         "type": "object",
         "properties": {
           "id": {

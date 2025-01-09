@@ -1,26 +1,47 @@
-using Domain.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
-using Service.Services;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Caching.Memory;
+using SendAppGI.Services;
+using SendAppGI.Viewsmodels;
 
 namespace SendAppGI
 {
     internal static class Program
     {
-        /// <summary>
-        ///  The main entry point for the application.
-        /// </summary>
         [STAThread]
         static void Main()
         {
-            // To customize application configuration such as set high DPI settings or default font,
-            // see https://aka.ms/applicationconfiguration.
+            // Configurar o Host para DI
+            var host = CreateHostBuilder().Build();
+
+            // Configurar a compatibilidade de renderização antes da criação de qualquer janela
+            Application.SetCompatibleTextRenderingDefault(false);
+
+            // Inicializar a configuração do aplicativo
             ApplicationConfiguration.Initialize();
-            Application.Run(new Initial());
+
+            // Resolver a instância do formulário principal
+            var services = host.Services;
+            var mainForm = services.GetRequiredService<Initial>();
+
+            // Rodar a aplicação
+            Application.Run(mainForm);
         }
-        private static void ConfigureServices(IServiceCollection services)
-        {
-            services.AddScoped<IStoreService, StoreService>();
-            services.AddScoped<IStoreRepository, IStoreRepository>();
-        }
+
+        static IHostBuilder CreateHostBuilder() =>
+            Host.CreateDefaultBuilder()
+                .ConfigureServices((_, services) =>
+                {
+                    // Registrar os serviços necessários
+                    services.AddSingleton<DataStoreService>(); // Serviço para o banco
+                    services.AddTransient<InitialViewModel>(); // ViewModel
+                    services.AddTransient<Initial>();          // Formulário principal
+
+                    // Registrar o IMemoryCache
+                    services.AddMemoryCache();
+
+                    // Registrar o HttpClient
+                    services.AddHttpClient(); // Agora deve funcionar após a instalação do pacote
+                });
     }
 }
