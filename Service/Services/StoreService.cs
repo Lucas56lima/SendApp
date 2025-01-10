@@ -53,5 +53,16 @@ namespace Service.Services
                 ArgumentNullException.ThrowIfNull($"The following properties have invalid values: {string.Join(", ", invalidProperties)}");
             }
         }
+
+        public async Task<Store> PutStoreByIdAsync(int id, Store store)
+        {
+            var storeByDB = await GetStoresByIdAsync(id);
+            if (storeByDB == null)
+            {
+                return null;
+            }
+            store.Id = storeByDB.Id;
+            return await _repository.PutStoreByIdAsync(id,store);
+        }
     }
 }

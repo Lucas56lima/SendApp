@@ -11,16 +11,22 @@ namespace SendAppGI.Viewsmodels
     public class InitialViewModel : INotifyPropertyChanged
     {
         private readonly DataStoreService storeService;
+        private readonly FileService _fileService;
         public ICommand SaveStoreCommand { get; }
         public ICommand LoadStoreCommand { get; }
         public ICommand LoadStoreFromCacheCommand { get; }
+        public ICommand PutStoreCommand { get; }
+        public ICommand StartWatchingCommand { get; }
 
-        public InitialViewModel(DataStoreService service)
+        public InitialViewModel(DataStoreService service, FileService fileService)
         {
             storeService = service;
+            _fileService = fileService; 
             SaveStoreCommand = new RelayCommand(async () => await Save(), CanSave);
             LoadStoreCommand = new RelayCommand(async () => await LoadStore(), CanLoadStore);
             LoadStoreFromCacheCommand = new RelayCommand(async () => await LoadStoreCache(), CanLoadStoreCache);
+            PutStoreCommand = new RelayCommand(async () => await PutStore(), CanPutStore);
+            StartWatchingCommand = new RelayCommand(async () => await StartWatching(), CanStartWatching);
         }
 
         private Store store;
@@ -54,8 +60,7 @@ namespace SendAppGI.Viewsmodels
          
         private async Task LoadStoreFromCacheAsync()
         {
-            if (Store == null)
-                Store = await storeService.GetFromCacheAsync();
+            Store ??= await storeService.GetFromCacheAsync();
         }
 
         private async Task Save()
@@ -115,6 +120,44 @@ namespace SendAppGI.Viewsmodels
         {
             // Validação se é possível carregar os dados (exemplo de verificação simples)
             return true;
+        }
+
+
+        private async Task PutStoreById()
+        {
+            bool success = await storeService.PutStoreByIdAsync(Store.Id,Store);
+            if (success)
+                OnPropertyChanged(nameof(Store));
+        }
+
+        private bool CanPutStore()
+        {
+            return true;
+        }
+
+        private async Task PutStore()
+        {
+            try
+            {
+                await PutStoreById();
+            }
+            catch(Exception ex)
+            {
+                // Tratar exceções de carregamento de dados
+                Console.WriteLine($"Erro ao atualizar: {ex.Message}");
+                // Exiba uma mensagem de erro para o usuário, se necessário
+            }
+        }
+
+        private bool CanStartWatching()
+        {
+            return true;
+        }
+
+        private async Task StartWatching()
+        {
+            if(Store != null)
+                await _fileService.StartWatching(Store.Path, Store.Name);            
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

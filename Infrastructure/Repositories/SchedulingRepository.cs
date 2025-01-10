@@ -2,6 +2,7 @@
 using Domain.Interfaces;
 using Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
+using static System.Formats.Asn1.AsnWriter;
 
 namespace Infrastructure.Repositories
 {
@@ -33,6 +34,11 @@ namespace Infrastructure.Repositories
         {
             await _context.Schedulings.AddAsync(scheduling);
             await _context.SaveChangesAsync();
+            Log log = new()
+            {
+                StoreName = scheduling.Store,
+                Message = $"Tarefa Agendada {scheduling.TransitionDate}"
+            };
             return scheduling;
         }
     }

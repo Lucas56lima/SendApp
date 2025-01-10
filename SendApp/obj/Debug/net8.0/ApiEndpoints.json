@@ -62,5 +62,26 @@
       }
     ],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SendApp.Controllers.StoreController",
+    "Method": "PutStoreByIdAsync",
+    "RelativePath": "api/Store/PutStoreByIdAsync",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "store",
+        "Type": "Domain.Entities.Store",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
   }
 ]

@@ -9,5 +9,6 @@ namespace Infrastructure.Context
         
         public DbSet<Store> Store { get; set; }
         public DbSet<Scheduling> Schedulings { get; set; }
+        public DbSet<Log> Logs { get; set; }
     }
 }

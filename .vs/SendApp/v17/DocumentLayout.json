@@ -3,20 +3,44 @@
   "WorkspaceRootPath": "C:\\Users\\Usu\u00E1rio\\source\\repos\\SendApp\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{26CC0861-7963-4563-92AA-7CC0BD97FAFF}|SendAppGI\\SendAppGI.csproj|c:\\users\\usu\u00E1rio\\source\\repos\\sendapp\\sendappgi\\initial.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{26CC0861-7963-4563-92AA-7CC0BD97FAFF}|SendAppGI\\SendAppGI.csproj|solutionrelative:sendappgi\\initial.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{26CC0861-7963-4563-92AA-7CC0BD97FAFF}|SendAppGI\\SendAppGI.csproj|c:\\users\\usu\u00E1rio\\source\\repos\\sendapp\\sendappgi\\services\\fileservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{26CC0861-7963-4563-92AA-7CC0BD97FAFF}|SendAppGI\\SendAppGI.csproj|solutionrelative:sendappgi\\services\\fileservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{26CC0861-7963-4563-92AA-7CC0BD97FAFF}|SendAppGI\\SendAppGI.csproj|c:\\users\\usu\u00E1rio\\source\\repos\\sendapp\\sendappgi\\services\\mailservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{26CC0861-7963-4563-92AA-7CC0BD97FAFF}|SendAppGI\\SendAppGI.csproj|solutionrelative:sendappgi\\services\\mailservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{26CC0861-7963-4563-92AA-7CC0BD97FAFF}|SendAppGI\\SendAppGI.csproj|c:\\users\\usu\u00E1rio\\source\\repos\\sendapp\\sendappgi\\services\\datastoreservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{26CC0861-7963-4563-92AA-7CC0BD97FAFF}|SendAppGI\\SendAppGI.csproj|solutionrelative:sendappgi\\services\\datastoreservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{26CC0861-7963-4563-92AA-7CC0BD97FAFF}|SendAppGI\\SendAppGI.csproj|c:\\users\\usu\u00E1rio\\source\\repos\\sendapp\\sendappgi\\viewsmodels\\initialviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{26CC0861-7963-4563-92AA-7CC0BD97FAFF}|SendAppGI\\SendAppGI.csproj|solutionrelative:sendappgi\\viewsmodels\\initialviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{26CC0861-7963-4563-92AA-7CC0BD97FAFF}|SendAppGI\\SendAppGI.csproj|c:\\users\\usu\u00E1rio\\source\\repos\\sendapp\\sendappgi\\commands\\relaycommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{26CC0861-7963-4563-92AA-7CC0BD97FAFF}|SendAppGI\\SendAppGI.csproj|solutionrelative:sendappgi\\commands\\relaycommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{26CC0861-7963-4563-92AA-7CC0BD97FAFF}|SendAppGI\\SendAppGI.csproj|c:\\users\\usu\u00E1rio\\source\\repos\\sendapp\\sendappgi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{26CC0861-7963-4563-92AA-7CC0BD97FAFF}|SendAppGI\\SendAppGI.csproj|solutionrelative:sendappgi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{26CC0861-7963-4563-92AA-7CC0BD97FAFF}|SendAppGI\\SendAppGI.csproj|c:\\users\\usu\u00E1rio\\source\\repos\\sendapp\\sendappgi\\services\\datastoreservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{26CC0861-7963-4563-92AA-7CC0BD97FAFF}|SendAppGI\\SendAppGI.csproj|solutionrelative:sendappgi\\services\\datastoreservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{26CC0861-7963-4563-92AA-7CC0BD97FAFF}|SendAppGI\\SendAppGI.csproj|c:\\users\\usu\u00E1rio\\source\\repos\\sendapp\\sendappgi\\initial.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{26CC0861-7963-4563-92AA-7CC0BD97FAFF}|SendAppGI\\SendAppGI.csproj|solutionrelative:sendappgi\\initial.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9AC1FC9B-B8E6-46AE-A7FD-F82D922BAE14}|Infrastructure\\Infrastructure.csproj|c:\\users\\usu\u00E1rio\\source\\repos\\sendapp\\infrastructure\\repositories\\storerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9AC1FC9B-B8E6-46AE-A7FD-F82D922BAE14}|Infrastructure\\Infrastructure.csproj|solutionrelative:infrastructure\\repositories\\storerepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D9479834-1AA3-4EF3-B2DA-76A9F62EEBCA}|SendApp\\SendApp.csproj|c:\\users\\usu\u00E1rio\\source\\repos\\sendapp\\sendapp\\controllers\\storecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D9479834-1AA3-4EF3-B2DA-76A9F62EEBCA}|SendApp\\SendApp.csproj|solutionrelative:sendapp\\controllers\\storecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Usu\u00E1rio\\source\\repos\\SendApp\\Infrastructure\\Repositories\\LogRepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Infrastructure\\Repositories\\LogRepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Usu\u00E1rio\\source\\repos\\SendApp\\Service\\LogService.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Service\\LogService.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -26,7 +50,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Bookmark",
@@ -39,53 +63,127 @@
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "DataStoreService.cs",
-              "DocumentMoniker": "C:\\Users\\Usu\u00E1rio\\source\\repos\\SendApp\\SendAppGI\\Services\\DataStoreService.cs",
-              "RelativeDocumentMoniker": "SendAppGI\\Services\\DataStoreService.cs",
-              "ToolTip": "C:\\Users\\Usu\u00E1rio\\source\\repos\\SendApp\\SendAppGI\\Services\\DataStoreService.cs",
-              "RelativeToolTip": "SendAppGI\\Services\\DataStoreService.cs",
-              "ViewState": "AgIAAA8AAAAAAAAAAAAAABoAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-09T16:51:00.661Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "RelayCommand.cs",
-              "DocumentMoniker": "C:\\Users\\Usu\u00E1rio\\source\\repos\\SendApp\\SendAppGI\\Commands\\RelayCommand.cs",
-              "RelativeDocumentMoniker": "SendAppGI\\Commands\\RelayCommand.cs",
-              "ToolTip": "C:\\Users\\Usu\u00E1rio\\source\\repos\\SendApp\\SendAppGI\\Commands\\RelayCommand.cs",
-              "RelativeToolTip": "SendAppGI\\Commands\\RelayCommand.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAAWAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-09T14:16:43.263Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
               "Title": "InitialViewModel.cs",
               "DocumentMoniker": "C:\\Users\\Usu\u00E1rio\\source\\repos\\SendApp\\SendAppGI\\Viewsmodels\\InitialViewModel.cs",
               "RelativeDocumentMoniker": "SendAppGI\\Viewsmodels\\InitialViewModel.cs",
               "ToolTip": "C:\\Users\\Usu\u00E1rio\\source\\repos\\SendApp\\SendAppGI\\Viewsmodels\\InitialViewModel.cs",
               "RelativeToolTip": "SendAppGI\\Viewsmodels\\InitialViewModel.cs",
-              "ViewState": "AgIAAAkAAAAAAAAAAAAAAHAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAADYAAAAAAAAAAAAawD8AAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-01-09T14:01:30.045Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "MailService.cs",
+              "DocumentMoniker": "C:\\Users\\Usu\u00E1rio\\source\\repos\\SendApp\\SendAppGI\\Services\\MailService.cs",
+              "RelativeDocumentMoniker": "SendAppGI\\Services\\MailService.cs",
+              "ToolTip": "C:\\Users\\Usu\u00E1rio\\source\\repos\\SendApp\\SendAppGI\\Services\\MailService.cs",
+              "RelativeToolTip": "SendAppGI\\Services\\MailService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAATAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-10T18:02:14.235Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "FileService.cs",
+              "DocumentMoniker": "C:\\Users\\Usu\u00E1rio\\source\\repos\\SendApp\\SendAppGI\\Services\\FileService.cs",
+              "RelativeDocumentMoniker": "SendAppGI\\Services\\FileService.cs",
+              "ToolTip": "C:\\Users\\Usu\u00E1rio\\source\\repos\\SendApp\\SendAppGI\\Services\\FileService.cs",
+              "RelativeToolTip": "SendAppGI\\Services\\FileService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-10T17:52:47.973Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "StoreRepository.cs",
+              "DocumentMoniker": "C:\\Users\\Usu\u00E1rio\\source\\repos\\SendApp\\Infrastructure\\Repositories\\StoreRepository.cs",
+              "RelativeDocumentMoniker": "Infrastructure\\Repositories\\StoreRepository.cs",
+              "ToolTip": "C:\\Users\\Usu\u00E1rio\\source\\repos\\SendApp\\Infrastructure\\Repositories\\StoreRepository.cs",
+              "RelativeToolTip": "Infrastructure\\Repositories\\StoreRepository.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAAB0AAAAoAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-10T15:03:56.23Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "StoreController.cs",
+              "DocumentMoniker": "C:\\Users\\Usu\u00E1rio\\source\\repos\\SendApp\\SendApp\\Controllers\\StoreController.cs",
+              "RelativeDocumentMoniker": "SendApp\\Controllers\\StoreController.cs",
+              "ToolTip": "C:\\Users\\Usu\u00E1rio\\source\\repos\\SendApp\\SendApp\\Controllers\\StoreController.cs",
+              "RelativeToolTip": "SendApp\\Controllers\\StoreController.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAAA0AAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-10T14:57:58.951Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "LogRepository.cs",
+              "DocumentMoniker": "C:\\Users\\Usu\u00E1rio\\source\\repos\\SendApp\\Infrastructure\\Repositories\\LogRepository.cs",
+              "RelativeDocumentMoniker": "Infrastructure\\Repositories\\LogRepository.cs",
+              "ToolTip": "C:\\Users\\Usu\u00E1rio\\source\\repos\\SendApp\\Infrastructure\\Repositories\\LogRepository.cs",
+              "RelativeToolTip": "Infrastructure\\Repositories\\LogRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-10T14:55:41.625Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
               "Title": "Initial.cs",
               "DocumentMoniker": "C:\\Users\\Usu\u00E1rio\\source\\repos\\SendApp\\SendAppGI\\Initial.cs",
               "RelativeDocumentMoniker": "SendAppGI\\Initial.cs",
               "ToolTip": "C:\\Users\\Usu\u00E1rio\\source\\repos\\SendApp\\SendAppGI\\Initial.cs",
               "RelativeToolTip": "SendAppGI\\Initial.cs",
-              "ViewState": "AgIAANkAAAAAAAAAAAAAAOIAAAAtAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAA/AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-01-08T19:29:52.587Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "LogService.cs",
+              "DocumentMoniker": "C:\\Users\\Usu\u00E1rio\\source\\repos\\SendApp\\Service\\LogService.cs",
+              "RelativeDocumentMoniker": "Service\\LogService.cs",
+              "ToolTip": "C:\\Users\\Usu\u00E1rio\\source\\repos\\SendApp\\Service\\LogService.cs",
+              "RelativeToolTip": "Service\\LogService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-10T18:07:02.065Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "DataStoreService.cs",
+              "DocumentMoniker": "C:\\Users\\Usu\u00E1rio\\source\\repos\\SendApp\\SendAppGI\\Services\\DataStoreService.cs",
+              "RelativeDocumentMoniker": "SendAppGI\\Services\\DataStoreService.cs",
+              "ToolTip": "C:\\Users\\Usu\u00E1rio\\source\\repos\\SendApp\\SendAppGI\\Services\\DataStoreService.cs",
+              "RelativeToolTip": "SendAppGI\\Services\\DataStoreService.cs",
+              "ViewState": "AgIAABoAAAAAAAAAAAAwwDAAAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-10T18:10:24.007Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\Usu\u00E1rio\\source\\repos\\SendApp\\SendAppGI\\Program.cs",
+              "RelativeDocumentMoniker": "SendAppGI\\Program.cs",
+              "ToolTip": "C:\\Users\\Usu\u00E1rio\\source\\repos\\SendApp\\SendAppGI\\Program.cs",
+              "RelativeToolTip": "SendAppGI\\Program.cs",
+              "ViewState": "AgIAABEAAAAAAAAAAAAYwBsAAAAmAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-10T18:02:59.222Z",
               "EditorCaption": ""
             }
           ]

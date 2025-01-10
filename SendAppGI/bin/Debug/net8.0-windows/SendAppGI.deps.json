@@ -10,7 +10,8 @@
         "dependencies": {
           "Domain": "1.0.0",
           "Microsoft.Extensions.Hosting": "9.0.0",
-          "Microsoft.Extensions.Http": "9.0.0"
+          "Microsoft.Extensions.Http": "9.0.0",
+          "SharpCompress": "0.38.0"
         },
         "runtime": {
           "SendAppGI.dll": {}
@@ -500,6 +501,17 @@
           }
         }
       },
+      "SharpCompress/0.38.0": {
+        "dependencies": {
+          "ZstdSharp.Port": "0.8.1"
+        },
+        "runtime": {
+          "lib/net8.0/SharpCompress.dll": {
+            "assemblyVersion": "0.38.0.0",
+            "fileVersion": "0.38.0.0"
+          }
+        }
+      },
       "SQLitePCLRaw.core/2.1.10": {
         "dependencies": {
           "System.Memory": "4.5.3"
@@ -575,6 +587,14 @@
           "lib/net8.0/System.Text.Json.dll": {
             "assemblyVersion": "9.0.0.0",
             "fileVersion": "9.0.24.52809"
+          }
+        }
+      },
+      "ZstdSharp.Port/0.8.1": {
+        "runtime": {
+          "lib/net8.0/ZstdSharp.dll": {
+            "assemblyVersion": "0.8.1.0",
+            "fileVersion": "0.8.1.0"
           }
         }
       },
@@ -857,6 +877,13 @@
       "path": "microsoft.extensions.primitives/9.0.0",
       "hashPath": "microsoft.extensions.primitives.9.0.0.nupkg.sha512"
     },
+    "SharpCompress/0.38.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-8i6KqjAFI3mvya8W8rnQrf5h4vz6ilw4zqk2AzInVqqqZ25TD6fmVeYBnlisjTWwP26eltZc0buSmJ8a3YIGxg==",
+      "path": "sharpcompress/0.38.0",
+      "hashPath": "sharpcompress.0.38.0.nupkg.sha512"
+    },
     "SQLitePCLRaw.core/2.1.10": {
       "type": "package",
       "serviceable": true,
@@ -905,6 +932,13 @@
       "sha512": "sha512-js7+qAu/9mQvnhA4EfGMZNEzXtJCDxgkgj8ohuxq/Qxv+R56G+ljefhiJHOxTNiw54q8vmABCWUwkMulNdlZ4A==",
       "path": "system.text.json/9.0.0",
       "hashPath": "system.text.json.9.0.0.nupkg.sha512"
+    },
+    "ZstdSharp.Port/0.8.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-19tNz33kn2EkyViFXuxfVn338UJaRmkwBphVqP2dVJIYQUQgFrgG5h061mxkRRg1Ax6r+6WOj1FxaFZ5qaWqqg==",
+      "path": "zstdsharp.port/0.8.1",
+      "hashPath": "zstdsharp.port.0.8.1.nupkg.sha512"
     },
     "Domain/1.0.0": {
       "type": "project",

@@ -109,6 +109,47 @@
           }
         }
       }
+    },
+    "/api/Store/PutStoreByIdAsync": {
+      "put": {
+        "tags": [
+          "Store"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Store"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Store"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Store"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
     }
   },
   "components": {

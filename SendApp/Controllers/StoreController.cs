@@ -26,6 +26,12 @@ namespace SendApp.Controllers
         {
             return Ok(await _service.GetStoresByIdAsync(id));
         }
+
+        [HttpPut("PutStoreByIdAsync")]
+        public async Task<IActionResult> PutStoreByIdAsync(int id,[FromBody] Store store)
+        {
+            return Ok(await _service.PutStoreByIdAsync(id,store));
+        }
     }
 }
 

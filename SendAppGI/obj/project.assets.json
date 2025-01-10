@@ -765,6 +765,22 @@
           "buildTransitive/net8.0/_._": {}
         }
       },
+      "SharpCompress/0.38.0": {
+        "type": "package",
+        "dependencies": {
+          "ZstdSharp.Port": "0.8.1"
+        },
+        "compile": {
+          "lib/net8.0/SharpCompress.dll": {
+            "related": ".pdb"
+          }
+        },
+        "runtime": {
+          "lib/net8.0/SharpCompress.dll": {
+            "related": ".pdb"
+          }
+        }
+      },
       "SQLitePCLRaw.core/2.1.10": {
         "type": "package",
         "dependencies": {
@@ -891,6 +907,15 @@
         },
         "build": {
           "buildTransitive/net8.0/System.Text.Json.targets": {}
+        }
+      },
+      "ZstdSharp.Port/0.8.1": {
+        "type": "package",
+        "compile": {
+          "lib/net8.0/ZstdSharp.dll": {}
+        },
+        "runtime": {
+          "lib/net8.0/ZstdSharp.dll": {}
         }
       },
       "Domain/1.0.0": {
@@ -1954,6 +1979,28 @@
         "useSharedDesignerContext.txt"
       ]
     },
+    "SharpCompress/0.38.0": {
+      "sha512": "8i6KqjAFI3mvya8W8rnQrf5h4vz6ilw4zqk2AzInVqqqZ25TD6fmVeYBnlisjTWwP26eltZc0buSmJ8a3YIGxg==",
+      "type": "package",
+      "path": "sharpcompress/0.38.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "README.md",
+        "lib/net462/SharpCompress.dll",
+        "lib/net462/SharpCompress.pdb",
+        "lib/net6.0/SharpCompress.dll",
+        "lib/net6.0/SharpCompress.pdb",
+        "lib/net8.0/SharpCompress.dll",
+        "lib/net8.0/SharpCompress.pdb",
+        "lib/netstandard2.0/SharpCompress.dll",
+        "lib/netstandard2.0/SharpCompress.pdb",
+        "lib/netstandard2.1/SharpCompress.dll",
+        "lib/netstandard2.1/SharpCompress.pdb",
+        "sharpcompress.0.38.0.nupkg.sha512",
+        "sharpcompress.nuspec"
+      ]
+    },
     "SQLitePCLRaw.core/2.1.10": {
       "sha512": "Ii8JCbC7oiVclaE/mbDEK000EFIJ+ShRPwAvvV89GOZhQ+ZLtlnSWl6ksCNMKu/VGXA4Nfi2B7LhN/QFN9oBcw==",
       "type": "package",
@@ -2184,6 +2231,25 @@
         "useSharedDesignerContext.txt"
       ]
     },
+    "ZstdSharp.Port/0.8.1": {
+      "sha512": "19tNz33kn2EkyViFXuxfVn338UJaRmkwBphVqP2dVJIYQUQgFrgG5h061mxkRRg1Ax6r+6WOj1FxaFZ5qaWqqg==",
+      "type": "package",
+      "path": "zstdsharp.port/0.8.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net462/ZstdSharp.dll",
+        "lib/net5.0/ZstdSharp.dll",
+        "lib/net6.0/ZstdSharp.dll",
+        "lib/net7.0/ZstdSharp.dll",
+        "lib/net8.0/ZstdSharp.dll",
+        "lib/netcoreapp3.1/ZstdSharp.dll",
+        "lib/netstandard2.0/ZstdSharp.dll",
+        "lib/netstandard2.1/ZstdSharp.dll",
+        "zstdsharp.port.0.8.1.nupkg.sha512",
+        "zstdsharp.port.nuspec"
+      ]
+    },
     "Domain/1.0.0": {
       "type": "project",
       "path": "../Domain/Domain.csproj",
@@ -2194,7 +2260,8 @@
     "net8.0-windows7.0": [
       "Domain >= 1.0.0",
       "Microsoft.Extensions.Hosting >= 9.0.0",
-      "Microsoft.Extensions.Http >= 9.0.0"
+      "Microsoft.Extensions.Http >= 9.0.0",
+      "SharpCompress >= 0.38.0"
     ]
   },
   "packageFolders": {
@@ -2259,6 +2326,10 @@
           "Microsoft.Extensions.Http": {
             "target": "Package",
             "version": "[9.0.0, )"
+          },
+          "SharpCompress": {
+            "target": "Package",
+            "version": "[0.38.0, )"
           }
         },
         "imports": [

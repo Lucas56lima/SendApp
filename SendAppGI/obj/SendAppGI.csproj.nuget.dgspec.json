@@ -150,6 +150,10 @@
             "Microsoft.Extensions.Http": {
               "target": "Package",
               "version": "[9.0.0, )"
+            },
+            "SharpCompress": {
+              "target": "Package",
+              "version": "[0.38.0, )"
             }
           },
           "imports": [

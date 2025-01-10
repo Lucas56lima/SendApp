@@ -24,6 +24,13 @@ namespace Infrastructure.Repositories
         {
             await _context.Store.AddAsync(store);
             await _context.SaveChangesAsync();
+            Log log = new()
+            {
+                StoreName = store.Name,
+                Message = "Loja criada!"
+            };
+            await _context.Logs.AddAsync(log);
+            await _context.SaveChangesAsync();
             return store;
         }
 
@@ -33,6 +40,15 @@ namespace Infrastructure.Repositories
                                 .Where(u => u.Name == name)
                                 .FirstOrDefaultAsync();
             return storeForDb;
+        }
+
+        public async Task<Store> PutStoreByIdAsync(int id, Store store)
+        {
+            var storeByDB = await GetStoresByIdAsync(id);            
+            _context.Entry(storeByDB).CurrentValues.SetValues(store);
+            _context.Entry(storeByDB).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+            return store;
         }
     }
 }

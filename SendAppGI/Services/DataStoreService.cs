@@ -48,5 +48,35 @@ namespace SendAppGI.Services
                 Console.WriteLine("Dados não encontrados no cachê");
             return store;
         }
+
+        public async Task<bool>PutStoreByIdAsync(int id, Store store)
+        {
+            var storeByCache = await GetFromCacheAsync();
+            if (storeByCache == null)
+                return false;
+
+            using HttpResponseMessage response = await httpClient.PutAsJsonAsync($"https://localhost:7185/api/Store/PutStoreByIdAsync?id={id}", store);
+
+            if(response.IsSuccessStatusCode)
+            {
+                MessageBox.Show("Dados atualizados com sucesso");
+                await GetStoreByIdAsync();
+                return true;
+            }
+
+            MessageBox.Show("Erro ao atualizar dados.");
+            return false;
+        }
+
+        public async Task<bool> PostLogAsync(Log log)
+        {
+            using HttpResponseMessage response = await httpClient.PostAsJsonAsync("https://localhost:7185/api/Store/PostLogAsync", log);
+            if (response.IsSuccessStatusCode)
+            {
+                return true;
+            }
+            return false;
+        }
+
     }
 }

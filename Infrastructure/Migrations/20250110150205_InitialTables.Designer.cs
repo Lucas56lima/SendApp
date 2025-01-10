@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(SendAppContext))]
-    [Migration("20250107174305_InitialTables")]
+    [Migration("20250110150205_InitialTables")]
     partial class InitialTables
     {
         /// <inheritdoc />
@@ -19,6 +19,26 @@ namespace Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.0");
+
+            modelBuilder.Entity("Domain.Entities.Log", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Message")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("StoreName")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Logs");
+                });
 
             modelBuilder.Entity("Domain.Entities.Scheduling", b =>
                 {

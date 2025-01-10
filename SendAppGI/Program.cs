@@ -1,6 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Caching.Memory;
 using SendAppGI.Services;
 using SendAppGI.Viewsmodels;
 
@@ -21,6 +20,7 @@ namespace SendAppGI
             ApplicationConfiguration.Initialize();
 
             // Resolver a instância do formulário principal
+            
             var services = host.Services;
             var mainForm = services.GetRequiredService<Initial>();
 
@@ -33,7 +33,9 @@ namespace SendAppGI
                 .ConfigureServices((_, services) =>
                 {
                     // Registrar os serviços necessários
-                    services.AddSingleton<DataStoreService>(); // Serviço para o banco
+                    services.AddSingleton<DataStoreService>();
+                    services.AddSingleton<MailService>();
+                    services.AddSingleton<FileService>();// Serviço para o banco
                     services.AddTransient<InitialViewModel>(); // ViewModel
                     services.AddTransient<Initial>();          // Formulário principal
 

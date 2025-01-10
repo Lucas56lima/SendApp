@@ -1,13 +1,13 @@
-﻿using System.Net.Mail;
+﻿using Domain.Entities;
 using System.Net;
-using SharpCompress.Archives;
-using SharpCompress.Common;
+using System.Net.Mail;
 
-namespace Service.Services
+namespace SendAppGI.Services
 {
-    public class MailService
+    public class MailService(DataStoreService dataStoreService)
     {
-        public void SendMail(string email, string password, string file)
+        private readonly DataStoreService _dataStoreService = dataStoreService;
+        public async Task SendMail(string email, string password, string file, string storeName)
         {
             try
             {
@@ -33,8 +33,15 @@ namespace Service.Services
 
                 Attachment attachment = new(file);
                 mail.Attachments.Add(attachment);
+                Log log = new()
+                {
+                    StoreName = storeName,
+                    Message = "Iniciando o envio do E-mail"
+                };
+                await _dataStoreService.PostLogAsync(log);
                 smtpClient.Send(mail);
-
+                log.Message = "E-mail enviado!";
+                await _dataStoreService.PostLogAsync(log);
                 Console.WriteLine("E-mail enviado com sucesso!");
             }
             catch (SmtpException ex)
@@ -54,6 +61,6 @@ namespace Service.Services
                 }
             }
         }
-        
+
     }
 }
