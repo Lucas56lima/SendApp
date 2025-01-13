@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SendApp")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a2937d631053338c83d27b56057e696732b97ab2")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+231db64db56f58811eec278cf7be28affea23739")]
 [assembly: System.Reflection.AssemblyProductAttribute("SendApp")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SendApp")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

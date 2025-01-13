@@ -1,18 +1,26 @@
 ﻿using Domain.Entities;
 using Domain.Interfaces;
+using Infrastructure.Context;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories
 {
-    public class LogRepository : ILogRepository
+    public class LogRepository(SendAppContext context) : ILogRepository
     {
-        public Task<IEnumerable<Log>> GetLogsByDateAsync(int currentMounth)
+        private readonly SendAppContext _context = context;
+        public async Task<IEnumerable<Log>> GetLogsByDateAsync(int currentMounth)
         {
-            throw new NotImplementedException();
+            var logs = await _context.Logs
+                            .Where(l => l.Created.Month == currentMounth)
+                            .ToListAsync();
+            return logs;
         }
 
-        public Task<Log> PostLogAsync(Log log)
+        public async Task<Log> PostLogAsync(Log log)
         {
-            throw new NotImplementedException();
+            await _context.Logs.AddAsync(log);
+            await _context.SaveChangesAsync();
+            return log;
         }
     }
 }

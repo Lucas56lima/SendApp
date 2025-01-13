@@ -51,7 +51,7 @@ namespace SendAppGI.Services
 
         public async Task<bool>PutStoreByIdAsync(int id, Store store)
         {
-            var storeByCache = await GetFromCacheAsync();
+            var storeByCache = GetFromCacheAsync();
             if (storeByCache == null)
                 return false;
 
@@ -70,7 +70,7 @@ namespace SendAppGI.Services
 
         public async Task<bool> PostLogAsync(Log log)
         {
-            using HttpResponseMessage response = await httpClient.PostAsJsonAsync("https://localhost:7185/api/Store/PostLogAsync", log);
+            using HttpResponseMessage response = await httpClient.PostAsJsonAsync("https://localhost:7185/api/Log/PostLogAsync", log);
             if (response.IsSuccessStatusCode)
             {
                 return true;
@@ -78,5 +78,16 @@ namespace SendAppGI.Services
             return false;
         }
 
+        public async Task<IEnumerable<Log>> GetLogsByDateAsync(int currentMonth)
+        {
+            //const string cacheKey = "Log";
+            
+            var logs = await httpClient.GetFromJsonAsync<IEnumerable<Log>>($"https://localhost:7185/api/Log/GetLogsByDateAsync?currentMonth={currentMonth}");
+            if (logs != null)
+                return logs;
+
+            MessageBox.Show("Erro ao carregar os logs");
+            return null;
+        }
     }
 }

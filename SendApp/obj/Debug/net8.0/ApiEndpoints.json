@@ -1,5 +1,37 @@
 [
   {
+    "ContainingType": "SendApp.Controllers.LogController",
+    "Method": "GetLogsByDateAsync",
+    "RelativePath": "api/Log/GetLogsByDateAsync",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "currentMonth",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "SendApp.Controllers.LogController",
+    "Method": "PostLogAsync",
+    "RelativePath": "api/Log/PostLogAsync",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "log",
+        "Type": "Domain.Entities.Log",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "SendApp.Controllers.SchedulingController",
     "Method": "GetSchedulingByStatusAsync",
     "RelativePath": "api/Scheduling/GetSchedulingByStatusAsync",

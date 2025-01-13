@@ -1,7 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SendAppGI.Services;
-using SendAppGI.Viewsmodels;
+using SendAppGI.Viewmodels;
 
 namespace SendAppGI
 {
@@ -13,7 +13,6 @@ namespace SendAppGI
             // Configurar o Host para DI
             var host = CreateHostBuilder().Build();
 
-            // Configurar a compatibilidade de renderização antes da criação de qualquer janela
             Application.SetCompatibleTextRenderingDefault(false);
 
             // Inicializar a configuração do aplicativo
@@ -24,8 +23,9 @@ namespace SendAppGI
             var services = host.Services;
             var mainForm = services.GetRequiredService<Initial>();
 
-            // Rodar a aplicação
+            // Rodar a aplicação            
             Application.Run(mainForm);
+           
         }
 
         static IHostBuilder CreateHostBuilder() =>
@@ -35,10 +35,10 @@ namespace SendAppGI
                     // Registrar os serviços necessários
                     services.AddSingleton<DataStoreService>();
                     services.AddSingleton<MailService>();
-                    services.AddSingleton<FileService>();// Serviço para o banco
+                    services.AddSingleton<FileService>();
                     services.AddTransient<InitialViewModel>(); // ViewModel
                     services.AddTransient<Initial>();          // Formulário principal
-
+                    
                     // Registrar o IMemoryCache
                     services.AddMemoryCache();
 

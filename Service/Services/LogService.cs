@@ -1,7 +1,7 @@
 ﻿using Domain.Entities;
 using Domain.Interfaces;
 
-namespace Service
+namespace Service.Services
 {
     public class LogService(ILogRepository repository) : ILogService
     {
@@ -9,7 +9,7 @@ namespace Service
         public async Task<IEnumerable<Log>> GetLogsByDateAsync(int currentMounth)
         {
             var logs = await _repository.GetLogsByDateAsync(currentMounth);
-            if(logs == null)
+            if (logs == null)
                 return null;
             return logs;
         }

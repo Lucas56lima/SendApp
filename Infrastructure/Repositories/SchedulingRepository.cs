@@ -39,6 +39,8 @@ namespace Infrastructure.Repositories
                 StoreName = scheduling.Store,
                 Message = $"Tarefa Agendada {scheduling.TransitionDate}"
             };
+            await _context.Logs.AddAsync(log);
+            await _context.SaveChangesAsync();
             return scheduling;
         }
     }

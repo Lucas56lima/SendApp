@@ -45,7 +45,7 @@ namespace Service.Services
             {
                 year++;
             }
-            DateOnly schandulingDate = new DateOnly(year, nextMonth, 1);
+            DateOnly schandulingDate = new (year, nextMonth, 1);
             scheduling.TransitionDate = schandulingDate;
             scheduling.Status = "Agendado";
             return await _repository.PostSchedulingAsync(scheduling);

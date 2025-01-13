@@ -11,7 +11,7 @@ namespace SendAppGI.Services
         {
             try
             {
-                SmtpClient smtpClient = new("smtp.com.br")
+                SmtpClient smtpClient = new("smtp.deco.com.br")
                 {
                     Port = 0,
                     Credentials = new NetworkCredential(email, password),
@@ -36,7 +36,8 @@ namespace SendAppGI.Services
                 Log log = new()
                 {
                     StoreName = storeName,
-                    Message = "Iniciando o envio do E-mail"
+                    Message = "Iniciando o envio do E-mail",
+                    Created = DateTime.Now
                 };
                 await _dataStoreService.PostLogAsync(log);
                 smtpClient.Send(mail);

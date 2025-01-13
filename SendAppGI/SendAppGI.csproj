@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Domain\Domain.csproj" />
+    <ProjectReference Include="..\SendApp\SendApp.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,6 +1,6 @@
 ﻿using Domain.Entities;
 using SendAppGI.Services;
-using SendAppGI.Viewsmodels;
+using SendAppGI.Viewmodels;
 using System.ComponentModel;
 
 
@@ -13,19 +13,18 @@ namespace SendAppGI
         private TextBox txtNome, txtEmail, txtSenha;
         private Label lblNome, lblEmail, lblSenha;        
         private readonly InitialViewModel viewModel;
-        private readonly MailService _mailService;
-        private readonly FileService _fileService;
-               
-        public Initial(DataStoreService dataStoreService, MailService mailService, FileService fileService )
+       
+        public Initial(DataStoreService dataStoreService,FileService fileService )
         {
-            viewModel = new InitialViewModel(dataStoreService,fileService);
-            viewModel.Store = new Store();
-            viewModel.LoadStoreCommand.Execute(null);
-            viewModel.PropertyChanged += ViewModel_PropertyChanged;
-            mailService = _mailService;
-            fileService = _fileService;
-            InitializeComponent();
-            viewModel.StartWatchingCommand.Execute(null);            
+            viewModel = new InitialViewModel(dataStoreService, fileService)
+            {
+                Store = new()
+            };
+            viewModel.LoadStoreCommand.Execute(null);            
+            viewModel.PropertyChanged += ViewModel_PropertyChanged;           
+            viewModel.StartWatchingCommand.Execute(null);
+            viewModel.LoadLogsCommand.Execute(null);
+            InitializeComponent();            
         }
 
         private void ViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -34,7 +33,7 @@ namespace SendAppGI
             {
                 txtNome.Text = viewModel.Store?.Name;
                 txtEmail.Text = viewModel.Store?.Email;
-                txtSenha.Text = viewModel.Store?.Password;
+                txtSenha.Text = viewModel.Store?.Password;                
             }
         }
 
@@ -44,7 +43,7 @@ namespace SendAppGI
             Text = "Configurações";
             StartPosition = FormStartPosition.CenterScreen;
             Size = new Size(500, 300);
-
+            
             splitContainer = new SplitContainer
             {
                 Dock = DockStyle.Fill,
@@ -58,24 +57,21 @@ namespace SendAppGI
             btnInicio = CreateButton("Início", 10, 10, BtnInicio_Click);
             btnDados = CreateButton("Dados", 10, 50, BtnDados_Click);
             btnLogs = CreateButton("Logs", 10, 90, BtnLogs_Click);
-            splitContainer.Panel1.Controls.AddRange(new Control[] { btnInicio, btnDados, btnLogs });
+            splitContainer.Panel1.Controls.AddRange([btnInicio, btnDados, btnLogs]);
             FillControls(viewModel.Store);                        
         }
 
 
 
-        private Button CreateButton(string text, int x, int y, EventHandler onClick)
+        private static Button CreateButton(string text, int x, int y, EventHandler onClick) => new Button
         {
-            return new Button
-            {
-                Text = text,
-                Location = new Point(x, y),
-                Size = new Size(100, 30),
-                UseVisualStyleBackColor = true
-            }.WithEvent(onClick);
-        }
+            Text = text,
+            Location = new Point(x, y),
+            Size = new Size(100, 30),
+            UseVisualStyleBackColor = true
+        }.WithEvent(onClick);
 
-        private Label CreateLabel(string text, int x, int y)
+        private static Label CreateLabel(string text, int x, int y)
         {
             return new Label
             {
@@ -86,7 +82,7 @@ namespace SendAppGI
             };
         }
 
-        private TextBox CreateTextBox(int x, int y, bool readOnly, bool isPassword = false)
+        private static TextBox CreateTextBox(int x, int y, bool readOnly, bool isPassword = false)
         {
             return new TextBox
             {
@@ -141,12 +137,10 @@ namespace SendAppGI
             // Evento para abrir o FolderBrowserDialog
             btnBrowse.Click += (s, ev) =>
             {
-                using (var folderDialog = new FolderBrowserDialog())
+                using var folderDialog = new FolderBrowserDialog();
+                if (folderDialog.ShowDialog() == DialogResult.OK)
                 {
-                    if (folderDialog.ShowDialog() == DialogResult.OK)
-                    {
-                        txtPath.Text = folderDialog.SelectedPath;
-                    }
+                    txtPath.Text = folderDialog.SelectedPath;
                 }
             };
 
@@ -241,7 +235,7 @@ namespace SendAppGI
                 isEditing = !isEditing;
             };
 
-            splitContainer.Panel2.Controls.AddRange(new Control[] { lblServer, txtServer, lblPath, txtPath, btnBrowse, btnEdit });
+            splitContainer.Panel2.Controls.AddRange([lblServer, txtServer, lblPath, txtPath, btnBrowse, btnEdit]);
         }
 
 
@@ -255,10 +249,47 @@ namespace SendAppGI
                 Dock = DockStyle.Fill,
                 View = View.Details
             };
-            listView.Columns.Add("Logs", -2, HorizontalAlignment.Left);
-            listView.Items.Add(new ListViewItem("Log 1"));
-            listView.Items.Add(new ListViewItem("Log 2"));
+            // Adicionar colunas ao ListView
+            listView.Columns.Add("Log", -2, HorizontalAlignment.Left);
+            listView.Columns.Add("Mensagem", -2, HorizontalAlignment.Left);
+            listView.Columns.Add("Data", -2, HorizontalAlignment.Left);
 
+            // Executar o comando para carregar logs
+            viewModel.LoadLogsCommand.Execute(null);
+
+            // Verificar se os logs foram carregados
+            if (viewModel.Logs != null)
+            {
+                foreach (Log item in viewModel.Logs)
+                {
+                    // Criar um novo ListViewItem para cada linha
+                    ListViewItem listViewItem = new (item.StoreName);
+                    listViewItem.SubItems.Add(item.Message);
+                    listViewItem.SubItems.Add(item.Created.ToString());
+
+                    // Adicionar o ListViewItem ao ListView
+                    listView.Items.Add(listViewItem);
+                }
+            }
+            else
+            {
+                Log log = new ()
+                {
+                    StoreName = viewModel.Store.Name,
+                    Message = "Sem logs para mostrar",
+                    Created = DateTime.Now,
+                };
+                ListViewItem listViewItem = new (log.StoreName);
+
+                // Adicionar subitens vazios ou com valores padrões
+                listViewItem.SubItems.Add(log.Message); // Coluna Mensagem
+                listViewItem.SubItems.Add("-"); // Coluna Data
+
+                // Adicionar a linha padrão ao ListView
+                listView.Items.Add(listViewItem);
+            }               
+                
+           
             splitContainer.Panel2.Controls.Add(listView);
         }
 
@@ -270,7 +301,7 @@ namespace SendAppGI
             var btnCancel = CreateButton("Cancelar", 190, 140, BtnCancel_Click);
 
             btnEditar.Visible = false;
-            splitContainer.Panel2.Controls.AddRange(new Control[] { btnSave, btnCancel });
+            splitContainer.Panel2.Controls.AddRange([btnSave, btnCancel]);
         }
 
         private void BtnSave_Click(object sender, EventArgs e)
@@ -315,12 +346,12 @@ namespace SendAppGI
             txtNome.ReadOnly = txtEmail.ReadOnly = txtSenha.ReadOnly = true;
             btnEditar.Visible = true;
 
-            ClearPanel2(exclude: new Control[] { lblNome, txtNome, lblEmail, txtEmail, lblSenha, txtSenha, btnEditar });
+            ClearPanel2(exclude: [lblNome, txtNome, lblEmail, txtEmail, lblSenha, txtSenha, btnEditar]);
         }
 
         private void ClearPanel2(Control[] exclude = null)
         {
-            var controlsToRemove = splitContainer.Panel2.Controls.Cast<Control>().Except(exclude ?? Array.Empty<Control>()).ToList();
+            List<Control> controlsToRemove = splitContainer.Panel2.Controls.Cast<Control>().Except(exclude ?? []).ToList();
             foreach (var control in controlsToRemove)
                 splitContainer.Panel2.Controls.Remove(control);
         }
@@ -341,7 +372,7 @@ namespace SendAppGI
 
             btnEditar = CreateButton("Editar", 80, 140, BtnEditar_Click);
 
-            splitContainer.Panel2.Controls.AddRange(new Control[] { lblNome, txtNome, lblEmail, txtEmail, lblSenha, txtSenha, btnEditar });
+            splitContainer.Panel2.Controls.AddRange([lblNome, txtNome, lblEmail, txtEmail, lblSenha, txtSenha, btnEditar]);
         }
     }
 

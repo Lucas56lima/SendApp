@@ -1,6 +1,5 @@
 ﻿using Domain.Entities;
 using Domain.Interfaces;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace SendApp.Controllers
@@ -28,9 +27,9 @@ namespace SendApp.Controllers
         }
 
         [HttpPut("PutStoreByIdAsync")]
-        public async Task<IActionResult> PutStoreByIdAsync(int id,[FromBody] Store store)
+        public async Task<IActionResult> PutStoreByIdAsync(int id, [FromBody] Store store)
         {
-            return Ok(await _service.PutStoreByIdAsync(id,store));
+            return Ok(await _service.PutStoreByIdAsync(id, store));
         }
     }
 }

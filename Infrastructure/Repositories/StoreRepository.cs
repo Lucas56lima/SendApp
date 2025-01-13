@@ -27,7 +27,8 @@ namespace Infrastructure.Repositories
             Log log = new()
             {
                 StoreName = store.Name,
-                Message = "Loja criada!"
+                Message = "Loja criada!",
+                Created = DateTime.Now
             };
             await _context.Logs.AddAsync(log);
             await _context.SaveChangesAsync();
