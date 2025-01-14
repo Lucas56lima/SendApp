@@ -21,10 +21,10 @@ namespace SendAppGI
                 Store = new()
             };
             viewModel.LoadStoreCommand.Execute(null);            
-            viewModel.PropertyChanged += ViewModel_PropertyChanged;           
+            viewModel.PropertyChanged += ViewModel_PropertyChanged;            
+            viewModel.LoadLogsCommand.Execute(null);            
+            InitializeComponent();
             viewModel.StartWatchingCommand.Execute(null);
-            viewModel.LoadLogsCommand.Execute(null);
-            InitializeComponent();            
         }
 
         private void ViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -58,10 +58,8 @@ namespace SendAppGI
             btnDados = CreateButton("Dados", 10, 50, BtnDados_Click);
             btnLogs = CreateButton("Logs", 10, 90, BtnLogs_Click);
             splitContainer.Panel1.Controls.AddRange([btnInicio, btnDados, btnLogs]);
-            FillControls(viewModel.Store);                        
+            FillControls(viewModel.Store);            
         }
-
-
 
         private static Button CreateButton(string text, int x, int y, EventHandler onClick) => new Button
         {

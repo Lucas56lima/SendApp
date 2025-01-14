@@ -41,7 +41,7 @@ namespace SendAppGI.Services
             return false;
         }
 
-        public async Task<Store> GetFromCacheAsync()
+        public Store GetFromCache()
         {
             var store = memoryCache.Get("StoreById") as Store;
             if (store == null)
@@ -51,7 +51,7 @@ namespace SendAppGI.Services
 
         public async Task<bool>PutStoreByIdAsync(int id, Store store)
         {
-            var storeByCache = GetFromCacheAsync();
+            var storeByCache = GetFromCache();
             if (storeByCache == null)
                 return false;
 
