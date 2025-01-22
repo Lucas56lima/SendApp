@@ -25,5 +25,10 @@ namespace SendApp.Controllers
         {
             return Ok(await _service.GetSchedulingByStatusAsync(status));
         }
+        [HttpPut("PutSchedulingByIdAsync")]
+        public async Task<IActionResult> PutSchedulingByIdAsync(int id, [FromBody] Scheduling scheduling)
+        {
+            return Ok(await _service.PutSchedulingByIdAsync(id, scheduling));
+        }
     }
 }

@@ -6,6 +6,7 @@ namespace Service.Services
     public class StoreService(IStoreRepository repository) : IStoreService
     {
         private readonly IStoreRepository _repository = repository;
+        
         public async Task<Store> GetStoresByIdAsync(int id)
         {
             var storeDb = await _repository.GetStoresByIdAsync(id);
@@ -32,7 +33,7 @@ namespace Service.Services
         public async Task<Store> PostStoreAsync(Store store)
         {
             ArgumentNullException.ThrowIfNull(store);
-            ValidateStrings(store);
+            ValidateStrings(store);            
             return await _repository.PostStoreAsync(store);
         }
 
@@ -61,6 +62,8 @@ namespace Service.Services
             {
                 return null;
             }
+            ArgumentNullException.ThrowIfNull(store);
+            ValidateStrings(store);
             store.Id = storeByDB.Id;
             return await _repository.PutStoreByIdAsync(id,store);
         }

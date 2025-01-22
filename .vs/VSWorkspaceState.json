@@ -1,6 +1,9 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\SendAppGI",
+    "\\SendAppGI\\Services",
+    "\\SendAppGI\\Viewmodels"
   ],
   "SelectedNode": "\\SendApp.sln",
   "PreviewInSolutionExplorer": false

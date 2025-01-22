@@ -4,9 +4,10 @@ using System.Net.Mail;
 
 namespace SendAppGI.Services
 {
-    public class MailService(DataStoreService dataStoreService)
+    public class MailService(DataStoreService dataStoreService, FileService fileService)
     {
         private readonly DataStoreService _dataStoreService = dataStoreService;
+        private readonly FileService _fileService = fileService;
         public async Task SendMail(string email, string password, string file, string storeName)
         {
             try
@@ -21,15 +22,14 @@ namespace SendAppGI.Services
                 MailMessage mail = new()
                 {
                     From = new MailAddress(email),
-                    Subject = "Teste",
-                    Body = "Outro teste",
+                    Subject = storeName + DateTime.Now.ToString("MM-yyyy"),
+                    Body = "Arquivos de fechamento.",
                     IsBodyHtml = false
                 };
 
+                //mail.To.Add("emailteste@com.br");
 
-                mail.To.Add("emailteste@com.br");
-
-                mail.To.Add("destinatario@deco.com.br");
+                mail.To.Add("fiscal@deco.com.br");
 
                 Attachment attachment = new(file);
                 mail.Attachments.Add(attachment);
@@ -44,6 +44,7 @@ namespace SendAppGI.Services
                 log.Message = "E-mail enviado!";
                 await _dataStoreService.PostLogAsync(log);
                 Console.WriteLine("E-mail enviado com sucesso!");
+                _fileService.DeleteZipFile(file);
             }
             catch (SmtpException ex)
             {
@@ -61,6 +62,7 @@ namespace SendAppGI.Services
                     Console.WriteLine($"Detalhes da exceção interna: {ex.InnerException.Message}");
                 }
             }
+
         }
 
     }

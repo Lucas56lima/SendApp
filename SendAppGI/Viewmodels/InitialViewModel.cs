@@ -2,7 +2,6 @@
 using SendAppGI.Commands;
 using SendAppGI.Services;
 using System.ComponentModel;
-using System.IO.Compression;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 
@@ -12,26 +11,65 @@ namespace SendAppGI.Viewmodels
     {
         private readonly DataStoreService _service;
         private readonly FileService _fileService;
+        private readonly MailService _mailService;
         public ICommand SaveStoreCommand { get; }
         public ICommand LoadStoreCommand { get; }
+        public ICommand LoadSchedulingCommand { get; }
         public ICommand LoadStoreFromCacheCommand { get; }
         public ICommand PutStoreCommand { get; }
         public ICommand StartWatchingCommand { get; }
         public ICommand LoadLogsCommand { get; }
-
-        public InitialViewModel(DataStoreService service, FileService fileService)
+        public ICommand SendEmailCommand { get; }
+        public InitialViewModel(DataStoreService service, FileService fileService,MailService mailService)
         {
             _service = service;
             _fileService = fileService;
-
+            _mailService = mailService;
             SaveStoreCommand = new RelayCommand(async () => await SaveStoreCommandAsync(), CanSave);
             LoadStoreCommand = new RelayCommand(async () => await LoadStoreAsync(), CanLoadStore);
+            LoadSchedulingCommand = new RelayCommand(async () => await LoadSchedulingAsync(), CanLoadScheduling);
             LoadStoreFromCacheCommand = new RelayCommand(() => LoadStoreFromCacheAsync(), CanLoadStoreCache);
             PutStoreCommand = new RelayCommand(async () => await PutStoreAsync(), CanPutStore);
             StartWatchingCommand = new RelayCommand(async () => await StartWatchingAsync(), CanStartWatching);
-
+            SendEmailCommand = new RelayCommand(async () => await SendEmail(), CanSendEmail);
             LoadLogsCommand = new RelayCommand(async () => await LoadLogsAsync(), CanLoadLogs);
+           
             _ = InitializeWatcherAsync();  // Inicia o monitoramento no início da aplicação
+        }
+
+
+        private async Task SendEmail()
+        {
+            // Aguarde até que o objeto Store esteja disponível
+            while (Store == null)
+            {
+                await Task.Delay(1000);
+            }
+
+            string path = "C:\\Users\\lucas\\source\\repos\\Lucas56lima\\SendApp\\Service\\Files\\";
+            var zipFiles = Directory.GetFiles(path, "*.zip", SearchOption.AllDirectories);
+
+            if (zipFiles.Length > 0)
+            {
+                // Aguarde até que o objeto Scheduling esteja disponível
+                while (Scheduling == null)
+                {
+                    await Task.Delay(1000);
+                }
+
+                foreach (var file in zipFiles)
+                {
+                    if (Scheduling.TransitionDate == DateOnly.FromDateTime(DateTime.Now) || Scheduling.Status != null)
+                    {
+                        // Enviar o e-mail
+                        await _mailService.SendMail(Store.Email, Store.Password, file, Store.Name);
+
+                        // Atualizar o agendamento
+                        await _service.PutSchedulingByIdAsync(Scheduling.Id, Scheduling);
+                        await _service.PostSchedulingByIdAsync(Scheduling);                        
+                    }
+                }
+            }
         }
 
         private Store store;
@@ -62,17 +100,53 @@ namespace SendAppGI.Viewmodels
             }
         }
 
+        private Scheduling scheduling;
+        public Scheduling Scheduling
+        {
+            get => scheduling;
+            set
+            {
+                if (scheduling != value)
+                {
+                    scheduling = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        private async Task LoadSchedulingAsync()
+        {
+            try
+            {
+                Scheduling = await _service.GetSchedulingsAsync();
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine("Erro ao carregar o agendamento", ex);
+            }
+           
+        }
+
         private async Task InitializeWatcherAsync()
         {
             try
             {
-                if (Store == null)
+                if (Store == null && Scheduling == null)
                 {
                     await LoadStoreAsync();
+                    await LoadSchedulingAsync();
+                }
+
+
+                if (Scheduling != null)
+                {
+                    await SendEmail();
+                     // Inicia o monitoramento assíncrono
                 }
 
                 if (Store != null && !string.IsNullOrEmpty(Store.Path) && !string.IsNullOrEmpty(Store.Name))
                 {
+                   
                     await StartWatchingAsync(); // Inicia o monitoramento assíncrono
                 }
                 else
@@ -166,16 +240,10 @@ namespace SendAppGI.Viewmodels
         private async Task StartWatchingAsync()
         {
             try
-            {
-                if (Store != null && !string.IsNullOrEmpty(Store.Path) && !string.IsNullOrEmpty(Store.Name))
-                {
-                    // Aqui, iniciamos o FileSystemWatcher de forma assíncrona
-                    await Task.Run(() => WatchDirectory(Store.Path, Store.Name)); // Inicia o monitoramento em um thread separado
-                }
-                else
-                {
-                    Console.WriteLine("Store ou caminho inválido para começar a observar.");
-                }
+            { 
+                string path = "C:\\Users\\lucas\\Downloads\\Nova pasta";
+                await Task.Run(() => _fileService.StartWatching(path,Store.Name));// Inicia o monitoramento em um thread separado
+             
             }
             catch (Exception ex)
             {
@@ -183,73 +251,16 @@ namespace SendAppGI.Viewmodels
             }
         }
 
-        // Método que monitora a pasta usando o FileSystemWatcher
-        private void WatchDirectory(string path, string storeName)
-        {
-            try
-            {
-                FileSystemWatcher watcher = new FileSystemWatcher
-                {
-                    Path = path,
-                    Filter = "*.xml", // Defina o tipo de arquivo que você quer observar
-                    NotifyFilter = NotifyFilters.FileName | NotifyFilters.LastWrite, // Observar alterações no nome e escrita
-                    EnableRaisingEvents = true,
-                    IncludeSubdirectories = true // Inclui subdiretórios
-                };
-
-                watcher.Created += (sender, e) =>
-                {
-                    // O que fazer quando um arquivo for criado
-                    Console.WriteLine($"Arquivo criado: {e.FullPath}");
-                    AddXmlToZip(e.FullPath); // Função para adicionar o arquivo ao ZIP
-                };
-
-                watcher.Changed += (sender, e) =>
-                {
-                    // O que fazer quando um arquivo for alterado
-                    Console.WriteLine($"Arquivo alterado: {e.FullPath}");
-                    AddXmlToZip(e.FullPath); // Função para adicionar o arquivo ao ZIP
-                };
-
-                // Mantém o processo de monitoramento ativo
-                while (true)
-                {
-                    Task.Delay(1000).Wait(); // Faz uma pausa entre as iterações
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Erro ao configurar o FileSystemWatcher: {ex.Message}");
-            }
-        }
-
-        // Função para adicionar o arquivo XML ao ZIP
-        private void AddXmlToZip(string path)
-        {
-            try
-            {
-                string zipFilePath = "C:\\path_to_your_zip\\file.zip";
-                using (FileStream zipToOpen = new FileStream(zipFilePath, FileMode.OpenOrCreate))
-                using (var archive = new System.IO.Compression.ZipArchive(zipToOpen, System.IO.Compression.ZipArchiveMode.Update))
-                {
-                    string fileName = Path.GetFileName(path);
-                    archive.CreateEntryFromFile(path, fileName);
-                    Console.WriteLine($"Arquivo {fileName} adicionado ao ZIP.");
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Erro ao adicionar o XML ao ZIP: {ex.Message}");
-            }
-        }
-
+        // Método que monitora a pasta usando o FileSystemWatcher        
+        
         private bool CanSave() => Store != null && !string.IsNullOrEmpty(Store.Name) && !string.IsNullOrEmpty(Store.Email);
         private bool CanLoadStore() => true;
         private bool CanLoadStoreCache() => true;
         private bool CanPutStore() => true;
         private bool CanStartWatching() => Store != null && !string.IsNullOrEmpty(Store.Path);
         private bool CanLoadLogs() => true;
-
+        private bool CanLoadScheduling() => true;
+        private bool CanSendEmail() => true;
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected void OnPropertyChanged([CallerMemberName] string propertyName = null)

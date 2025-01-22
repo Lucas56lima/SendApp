@@ -15,6 +15,14 @@ namespace Infrastructure.Repositories
             throw new NotImplementedException();
         }
 
+        public async Task<Scheduling> GetSchedulingByIdAsync(int id)
+        {
+            var schedulingForDb = await _context.Schedulings
+                                  .Where(s => s.Id == id)
+                                  .FirstOrDefaultAsync();
+            return schedulingForDb;
+        }
+
         public async Task<Scheduling> GetSchedulingByStatusAsync(string status)
         {
             var schedulingForDb = await _context.Schedulings
@@ -33,13 +41,15 @@ namespace Infrastructure.Repositories
         public async Task<Scheduling> PostSchedulingAsync(Scheduling scheduling)
         {
             await _context.Schedulings.AddAsync(scheduling);
-            await _context.SaveChangesAsync();
-            Log log = new()
-            {
-                StoreName = scheduling.Store,
-                Message = $"Tarefa Agendada {scheduling.TransitionDate}"
-            };
-            await _context.Logs.AddAsync(log);
+            await _context.SaveChangesAsync();            
+            return scheduling;
+        }
+
+        public async Task<Scheduling> PutSchedulingByIdAsync(int id, Scheduling scheduling)
+        {
+            var schedulingForDb = await GetSchedulingByIdAsync(id);
+            _context.Entry(schedulingForDb).CurrentValues.SetValues(scheduling);
+            _context.Entry(schedulingForDb).State = EntityState.Modified;
             await _context.SaveChangesAsync();
             return scheduling;
         }

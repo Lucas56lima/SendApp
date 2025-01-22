@@ -12,7 +12,8 @@ namespace Infrastructure.Repositories
         {
             var logs = await _context.Logs
                             .Where(l => l.Created.Month == currentMounth)
-                            .ToListAsync();
+                            .OrderByDescending(l => l.Created)
+                            .ToListAsync();                            
             return logs;
         }
 

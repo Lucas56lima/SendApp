@@ -11,6 +11,14 @@ namespace Service.Services
             throw new NotImplementedException();
         }
 
+        public async Task<Scheduling> GetSchedulingByIdAsync(int id)
+        {
+            var schedulingForDb = await _repository.GetSchedulingByIdAsync(id);
+            if (schedulingForDb == null)
+                return null;
+            return schedulingForDb;
+        }
+
         /// <summary>
         /// Get an existing schedule based on status as parameter.
         /// </summary>
@@ -49,6 +57,35 @@ namespace Service.Services
             scheduling.TransitionDate = schandulingDate;
             scheduling.Status = "Agendado";
             return await _repository.PostSchedulingAsync(scheduling);
+        }
+
+        public async Task<Scheduling> PutSchedulingByIdAsync(int id, Scheduling scheduling)
+        {
+            var schedulingForDb = await GetSchedulingByIdAsync(id);
+            if (schedulingForDb == null)
+                return null;
+            ArgumentNullException.ThrowIfNull(scheduling);
+            ValidateStrings(scheduling);
+            scheduling.Id = schedulingForDb.Id;
+            scheduling.Status = "Enviado";
+            return await _repository.PutSchedulingByIdAsync(id, scheduling);
+        }
+        public static void ValidateStrings(object obj, string invalidValue = "string")
+        {
+            if (obj == null)
+                ArgumentNullException.ThrowIfNull(obj);
+
+            var invalidProperties = obj.GetType()
+                .GetProperties()
+                .Where(p => p.PropertyType == typeof(string))
+                .Where(p => p.GetValue(obj)?.ToString() == invalidValue)
+                .Select(p => p.Name)
+                .ToList();
+
+            if (invalidProperties.Any())
+            {
+                ArgumentNullException.ThrowIfNull($"The following properties have invalid values: {string.Join(", ", invalidProperties)}");
+            }
         }
     }
 }

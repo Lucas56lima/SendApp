@@ -89,5 +89,31 @@ namespace SendAppGI.Services
             MessageBox.Show("Erro ao carregar os logs");
             return null;
         }
+
+        public async Task<Scheduling>GetSchedulingsAsync()
+        {
+            var scheduling = await httpClient.GetFromJsonAsync<Scheduling>($"https://localhost:7185/api/Scheduling/GetSchedulingByStatusAsync?status=Agendado");
+            if (scheduling != null)
+                return scheduling;
+            return null;
+        }
+        public async Task<bool> PutSchedulingByIdAsync(int id, Scheduling scheduling)
+        {
+            using HttpResponseMessage response = await httpClient.PutAsJsonAsync($"https://localhost:7185/api/Scheduling/PutSchedulingByIdAsync?id={id}", scheduling);
+            if (response.IsSuccessStatusCode)
+            {
+                return true;
+            }
+            return false;
+        }
+        public async Task<bool> PostSchedulingByIdAsync(Scheduling scheduling)
+        {
+            using HttpResponseMessage response = await httpClient.PostAsJsonAsync($"https://localhost:7185/api/Scheduling/PostSchedulingAsync", scheduling);
+            if (response.IsSuccessStatusCode)
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }

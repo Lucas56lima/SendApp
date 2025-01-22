@@ -1,25 +1,23 @@
 ﻿using Domain.Entities;
 using Microsoft.Extensions.Configuration;
 using System.IO.Compression;
+using System.Xml.Linq;
 
 namespace SendAppGI.Services
 {
     public class FileService
-    {
-        private readonly MailService _mailService;
-        private readonly DataStoreService _dataStoreService;
-
-        private static readonly object lockObject = new();
+    {       
+        private readonly DataStoreService _dataStoreService;       
 
         public Store Store { get; private set; }
 
-        public FileService(IConfiguration configuration, MailService mailService, DataStoreService dataStoreService)
+        public FileService(IConfiguration configuration, DataStoreService dataStoreService)
         {
-            _mailService = mailService;
+            
             _dataStoreService = dataStoreService;
         }
 
-        public void GetFileForPath(string path)
+        public async Task GetFileForPathAsync(string path)
         {
             string filePath = "C:\\Users\\Usuário\\source\\repos\\SendApp\\Service\\Files\\";
             string zipFilePath = Path.Combine(filePath, $"XML_{DateTime.Now:yyyy_MM}.zip");
@@ -38,13 +36,21 @@ namespace SendAppGI.Services
                         DateTime fileCreation = File.GetLastWriteTime(f);
                         DateTime now = DateTime.Now;
                         return (now.Month == 1 && fileCreation.Month == 12 && now.Year > fileCreation.Year) ||
-                               (fileCreation.Month == now.AddMonths(-1).Month);
-                    });
+                               (fileCreation.Month == now.Month);
+                    })
+                    .OrderByDescending(File.GetLastWriteTime) // Ordena para obter o mais recente
+                    .ToList();
 
+                if (!filterFiles.Any())
+                {
+                    Console.WriteLine("Nenhum arquivo XML encontrado.");
+                    return;
+                }
+
+                // Abre o arquivo ZIP
                 using var zipToOpen = new FileStream(zipFilePath, FileMode.OpenOrCreate);
                 using var archive = new ZipArchive(zipToOpen, ZipArchiveMode.Update);
 
-                // Adiciona os arquivos XML ao ZIP
                 foreach (var file in filterFiles)
                 {
                     string fileName = Path.GetFileName(file);
@@ -60,12 +66,39 @@ namespace SendAppGI.Services
                     }
                 }
 
+                // Pega o último arquivo modificado
+                var latestFile = filterFiles.FirstOrDefault();
+                if (latestFile == null)
+                {
+                    Console.WriteLine("Erro ao encontrar o último arquivo.");
+                    return;
+                }
+
+                XElement xml = XElement.Load(latestFile); // Usa o caminho completo do arquivo
+
+                string cnpj = xml?.Element("CNPJ")?.Value ?? "000000000";
+                string name = xml?.Element("xNome")?.Value ?? "Sem identificação";
+
+                Store store = new()
+                {
+                    Name = name,
+                    Password = "00000"
+                };
+
+                // Post executado apenas uma vez
+                await _dataStoreService.PostStoreAsync(store);
+                Console.WriteLine("Informações enviadas com sucesso.");
+            }
+            catch (IOException ioEx)
+            {
+                Console.WriteLine($"Erro de I/O: {ioEx.Message}");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Erro ao ler arquivos: {ex.Message}");
+                Console.WriteLine($"Erro ao processar arquivos: {ex.Message}");
             }
         }
+
 
         // Cria um ZIP vazio se o arquivo não existir
         private static void CreateEmptyZipFile(string zipFilePath)
@@ -87,7 +120,7 @@ namespace SendAppGI.Services
 
         public void StartWatching(string path, string storeName)
         {
-            if (string.IsNullOrWhiteSpace(path) || string.IsNullOrEmpty(storeName))
+            if (string.IsNullOrWhiteSpace(path))
             {
                 throw new ArgumentException("O caminho e o nome da loja não podem ser nulos ou vazios.");
             }
@@ -103,14 +136,13 @@ namespace SendAppGI.Services
             };
 
             watcher.Created += OnNewXmlCreated;
-
-            // Use uma nova thread para não bloquear a execução
+          
             Task.Run(() =>
             {
                 Console.WriteLine("Iniciando o monitoramento de arquivos...");
                 // Mantenha o monitoramento ativo, fazendo com que o código não saia
                 while (true)
-                {
+                {                   
                     Thread.Sleep(1000);
                 }
             });
@@ -120,21 +152,14 @@ namespace SendAppGI.Services
         {
             // Garantir que o código abaixo seja executado na thread principal
             if (e is FileSystemEventArgs fileEventArgs)
-            {
-                // Exemplo de como invocar a atualização da UI na thread principal
-                Application.OpenForms[0].Invoke(new Action(() =>
-                {
-                    // Atualizar a UI aqui, por exemplo:
-                    MessageBox.Show($"Novo arquivo encontrado: {fileEventArgs.FullPath}");
-                }));
-
+            {                
                 AddXmlToZip(fileEventArgs.FullPath);
             }
         }
         // Adiciona XML ao ZIP de forma segura
         public static void AddXmlToZip(string path)
         {
-            string filePath = "C:\\Users\\Usuário\\source\\repos\\SendApp\\Service\\Files\\";
+            string filePath = "C:\\Users\\lucas\\Source\\Repos\\Lucas56lima\\SendApp\\Service\\Files\\";
             string zipFilePath = Path.Combine(filePath, $"XML_{DateTime.Now:yyyy_MM}.zip");
 
             try
@@ -146,23 +171,22 @@ namespace SendAppGI.Services
                 }
 
                 // Adiciona um bloqueio para evitar concorrência no acesso ao arquivo ZIP
-                lock (lockObject)
-                {
-                    using FileStream zipToOpen = new(zipFilePath, FileMode.OpenOrCreate);
-                    using ZipArchive archive = new(zipToOpen, ZipArchiveMode.Update);
-                    string fileName = Path.GetFileName(path);
+                
+                using FileStream zipToOpen = new(zipFilePath, FileMode.OpenOrCreate);
+                using ZipArchive archive = new(zipToOpen, ZipArchiveMode.Update);
+                string fileName = Path.GetFileName(path);
 
-                    // Verifica se o arquivo já está no ZIP
-                    if (archive.GetEntry(fileName) == null)
-                    {
-                        archive.CreateEntryFromFile(path, fileName);
-                        Console.WriteLine($"Arquivo {fileName} adicionado ao ZIP.");
-                    }
-                    else
-                    {
-                        Console.WriteLine($"Arquivo {fileName} já está no ZIP.");
-                    }
+                // Verifica se o arquivo já está no ZIP
+                if (archive.GetEntry(fileName) == null)
+                {
+                    archive.CreateEntryFromFile(path, fileName);
+                    Console.WriteLine($"Arquivo {fileName} adicionado ao ZIP.");
                 }
+                else
+                {
+                    Console.WriteLine($"Arquivo {fileName} já está no ZIP.");
+                }
+                
             }
             catch (Exception ex)
             {

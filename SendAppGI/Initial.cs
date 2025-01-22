@@ -14,16 +14,17 @@ namespace SendAppGI
         private Label lblNome, lblEmail, lblSenha;        
         private readonly InitialViewModel viewModel;
        
-        public Initial(DataStoreService dataStoreService,FileService fileService )
+        public Initial(DataStoreService dataStoreService,FileService fileService, MailService mailService )
         {
-            viewModel = new InitialViewModel(dataStoreService, fileService)
+            viewModel = new InitialViewModel(dataStoreService, fileService, mailService)
             {
                 Store = new()
             };
             viewModel.LoadStoreCommand.Execute(null);            
             viewModel.PropertyChanged += ViewModel_PropertyChanged;            
-            viewModel.LoadLogsCommand.Execute(null);            
-            InitializeComponent();
+            viewModel.LoadLogsCommand.Execute(null);
+            viewModel.LoadSchedulingCommand.Execute(null);
+            InitializeComponent();            
             viewModel.StartWatchingCommand.Execute(null);
         }
 
@@ -39,6 +40,20 @@ namespace SendAppGI
 
         private void InitializeComponent()
         {
+            
+           
+            NotifyIcon notifyIcon = new NotifyIcon();
+            notifyIcon.Icon = SystemIcons.WinLogo ; // ícone de exemplo
+            notifyIcon.Visible = true;
+            notifyIcon.Text = "SendApp";
+
+            // Lógica para o ícone de bandeja
+            notifyIcon.DoubleClick += (sender, e) =>
+            {
+                // Código para restaurar ou interagir com a aplicação
+                ShowMainWindow();
+            };
+
             // Configuração geral da janela
             Text = "Configurações";
             StartPosition = FormStartPosition.CenterScreen;
@@ -59,6 +74,13 @@ namespace SendAppGI
             btnLogs = CreateButton("Logs", 10, 90, BtnLogs_Click);
             splitContainer.Panel1.Controls.AddRange([btnInicio, btnDados, btnLogs]);
             FillControls(viewModel.Store);            
+        }
+
+        private void ShowMainWindow()
+        {
+            this.Show();
+            this.WindowState = FormWindowState.Normal;
+            this.BringToFront();
         }
 
         private static Button CreateButton(string text, int x, int y, EventHandler onClick) => new Button
@@ -116,9 +138,7 @@ namespace SendAppGI
         private void BtnDados_Click(object sender, EventArgs e)
         {
             ClearPanel2();
-
-            var lblServer = CreateLabel("SMTP:", 20, 20);
-            var txtServer = CreateTextBox(80, 20, true);
+            
             var lblPath = CreateLabel("Local:", 20, 60);
             var txtPath = CreateTextBox(80, 60, true);
             txtPath.Text = viewModel.Store.Path;
@@ -233,7 +253,7 @@ namespace SendAppGI
                 isEditing = !isEditing;
             };
 
-            splitContainer.Panel2.Controls.AddRange([lblServer, txtServer, lblPath, txtPath, btnBrowse, btnEdit]);
+            splitContainer.Panel2.Controls.AddRange([lblPath, txtPath, btnBrowse, btnEdit]);
         }
 
 
@@ -320,12 +340,21 @@ namespace SendAppGI
 
             // Defina os campos como somente leitura após salvar
             txtNome.ReadOnly = txtEmail.ReadOnly = txtSenha.ReadOnly = true;
-            if(!String.IsNullOrWhiteSpace(txtNome.Text))
-                viewModel.Store.Name = txtNome.Text;
-            if (!String.IsNullOrWhiteSpace(txtEmail.Text))
-                viewModel.Store.Email = txtEmail.Text;
-            if (!String.IsNullOrWhiteSpace(txtSenha.Text))
-                viewModel.Store.Password = txtSenha.Text;
+            var textBoxes = new (TextBox TextBox, Action<string> UpdateAction)[]
+            {
+                (txtNome, val => viewModel.Store.Name = val),
+                (txtEmail, val => viewModel.Store.Email = val),
+                (txtSenha, val => viewModel.Store.Password = val)
+            };
+
+            foreach (var (textBox, updateAction) in textBoxes)
+            {
+                if (!string.IsNullOrWhiteSpace(textBox.Text))
+                {
+                    updateAction(textBox.Text);
+                }
+            }
+
             if (viewModel.PutStoreCommand.CanExecute(null))
             {                
                 viewModel.PutStoreCommand.Execute(null);                
@@ -372,7 +401,17 @@ namespace SendAppGI
 
             splitContainer.Panel2.Controls.AddRange([lblNome, txtNome, lblEmail, txtEmail, lblSenha, txtSenha, btnEditar]);
         }
+
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            if (e.CloseReason == CloseReason.UserClosing)
+            {
+                e.Cancel = true;
+                this.Hide();
+            }
+        }
     }
+
 
 
     public static class Extensions

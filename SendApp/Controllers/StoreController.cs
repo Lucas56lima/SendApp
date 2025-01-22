@@ -9,14 +9,21 @@ namespace SendApp.Controllers
     public class StoreController : Controller
     {
         private readonly IStoreService _service;
-        public StoreController(IStoreService service)
+        private readonly ISchedulingService _schedulingService;
+        public StoreController(IStoreService service, ISchedulingService schedulingService)
         {
             _service = service;
+            _schedulingService = schedulingService;
         }
 
         [HttpPost("PostStoreAsync")]
         public async Task<IActionResult> PostStoreAsync([FromBody] Store store)
         {
+            Scheduling scheduling = new()
+            {
+                Store = store.Name
+            };
+            Ok(_schedulingService.PostSchedulingAsync(scheduling));
             return Ok(await _service.PostStoreAsync(store));
         }
 
@@ -28,7 +35,7 @@ namespace SendApp.Controllers
 
         [HttpPut("PutStoreByIdAsync")]
         public async Task<IActionResult> PutStoreByIdAsync(int id, [FromBody] Store store)
-        {
+        {   
             return Ok(await _service.PutStoreByIdAsync(id, store));
         }
     }
