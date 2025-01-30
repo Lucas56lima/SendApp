@@ -11,7 +11,7 @@
         "projectName": "Domain",
         "projectPath": "C:\\Users\\lucas\\source\\repos\\Lucas56lima\\SendApp\\Domain\\Domain.csproj",
         "packagesPath": "C:\\Users\\lucas\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\lucas\\source\\repos\\Lucas56lima\\SendApp\\Domain\\obj\\",
+        "outputPath": "C:\\Users\\lucas\\Source\\Repos\\Lucas56lima\\SendApp\\Domain\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -99,7 +99,7 @@
         "projectName": "Infrastructure",
         "projectPath": "C:\\Users\\lucas\\source\\repos\\Lucas56lima\\SendApp\\Infrastructure\\Infrastructure.csproj",
         "packagesPath": "C:\\Users\\lucas\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\lucas\\source\\repos\\Lucas56lima\\SendApp\\Infrastructure\\obj\\",
+        "outputPath": "C:\\Users\\lucas\\Source\\Repos\\Lucas56lima\\SendApp\\Infrastructure\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -195,7 +195,7 @@
         "projectName": "Service",
         "projectPath": "C:\\Users\\lucas\\source\\repos\\Lucas56lima\\SendApp\\Service\\Service.csproj",
         "packagesPath": "C:\\Users\\lucas\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\lucas\\source\\repos\\Lucas56lima\\SendApp\\Service\\obj\\",
+        "outputPath": "C:\\Users\\lucas\\Source\\Repos\\Lucas56lima\\SendApp\\Service\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

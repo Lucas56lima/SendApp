@@ -1,13 +1,18 @@
 ﻿using Domain.Entities;
+using Domain.Interfaces;
 using Microsoft.Extensions.Caching.Memory;
-using System.Net.Http.Json;
 
 namespace SendAppGI.Services
 {
-    public class DataStoreService(IMemoryCache cache, HttpClient client)
+    public class DataStoreService(IMemoryCache cache, 
+        IStoreService storeService,
+        ISchedulingService schedulingService,
+        ILogService logService)
     {
         private readonly IMemoryCache memoryCache = cache;
-        private readonly HttpClient httpClient = client;
+        private readonly IStoreService _storeService = storeService;
+        private readonly ISchedulingService _schedulingService = schedulingService;
+        private readonly ILogService _logService = logService;
         private readonly TimeSpan cacheDuration = TimeSpan.FromMinutes(30);
 
 
@@ -18,7 +23,7 @@ namespace SendAppGI.Services
             if (memoryCache.TryGetValue(cacheKey, out Store cachedStore))
                 return cachedStore;
 
-            var storeDb = await httpClient.GetFromJsonAsync<Store>("https://localhost:7185/api/Store/GetStoreByIdAsync?id=1");
+            var storeDb = await _storeService.GetStoresByIdAsync(1);
             if (storeDb == null)
             {
                 MessageBox.Show("Erro ao obter dados da loja.");
@@ -27,7 +32,16 @@ namespace SendAppGI.Services
 
             // Armazena no cache com duração especificada.
             memoryCache.Set(cacheKey, storeDb, cacheDuration);
-
+            if (!IsFirstRunCompleted())
+            {
+                Scheduling scheduling = new()
+                {
+                    Store = storeDb.Name
+                };
+                await PostSchedulingByIdAsync(scheduling);
+                MarkAsCompleted();
+            }
+                        
             return storeDb;
         }
 
@@ -35,17 +49,16 @@ namespace SendAppGI.Services
         {
             if (store != null)
             {
-                using HttpResponseMessage response = await httpClient.PostAsJsonAsync("https://localhost:7185/api/Store/PostStoreAsync", store);
-                return response.IsSuccessStatusCode;
+                await _storeService.PostStoreAsync(store);
+               
+                return true;
             }
             return false;
         }
 
         public Store GetFromCache()
         {
-            var store = memoryCache.Get("StoreById") as Store;
-            if (store == null)
-                Console.WriteLine("Dados não encontrados no cachê");
+            var store = memoryCache.Get("StoreById") as Store;                           
             return store;
         }
 
@@ -55,9 +68,9 @@ namespace SendAppGI.Services
             if (storeByCache == null)
                 return false;
 
-            using HttpResponseMessage response = await httpClient.PutAsJsonAsync($"https://localhost:7185/api/Store/PutStoreByIdAsync?id={id}", store);
+            var putStore = await _storeService.PutStoreByIdAsync(id, store);
 
-            if(response.IsSuccessStatusCode)
+            if(putStore != null)
             {
                 MessageBox.Show("Dados atualizados com sucesso");
                 await GetStoreByIdAsync();
@@ -70,9 +83,9 @@ namespace SendAppGI.Services
 
         public async Task<bool> PostLogAsync(Log log)
         {
-            using HttpResponseMessage response = await httpClient.PostAsJsonAsync("https://localhost:7185/api/Log/PostLogAsync", log);
-            if (response.IsSuccessStatusCode)
+            if (log != null)
             {
+                await _logService.PostLogAsync(log);
                 return true;
             }
             return false;
@@ -82,7 +95,7 @@ namespace SendAppGI.Services
         {
             //const string cacheKey = "Log";
             
-            var logs = await httpClient.GetFromJsonAsync<IEnumerable<Log>>($"https://localhost:7185/api/Log/GetLogsByDateAsync?currentMonth={currentMonth}");
+            var logs = await _logService.GetLogsByDateAsync(currentMonth);
             if (logs != null)
                 return logs;
 
@@ -92,28 +105,43 @@ namespace SendAppGI.Services
 
         public async Task<Scheduling>GetSchedulingsAsync()
         {
-            var scheduling = await httpClient.GetFromJsonAsync<Scheduling>($"https://localhost:7185/api/Scheduling/GetSchedulingByStatusAsync?status=Agendado");
+            var scheduling = await _schedulingService.GetSchedulingByStatusAsync("Agendado");
             if (scheduling != null)
                 return scheduling;
             return null;
         }
         public async Task<bool> PutSchedulingByIdAsync(int id, Scheduling scheduling)
         {
-            using HttpResponseMessage response = await httpClient.PutAsJsonAsync($"https://localhost:7185/api/Scheduling/PutSchedulingByIdAsync?id={id}", scheduling);
-            if (response.IsSuccessStatusCode)
-            {
+         
+            var putScheduling = await _schedulingService.PutSchedulingByIdAsync(id, scheduling);
+            if(putScheduling != null)
                 return true;
-            }
+            
             return false;
         }
         public async Task<bool> PostSchedulingByIdAsync(Scheduling scheduling)
         {
-            using HttpResponseMessage response = await httpClient.PostAsJsonAsync($"https://localhost:7185/api/Scheduling/PostSchedulingAsync", scheduling);
-            if (response.IsSuccessStatusCode)
-            {
+            var postScheduling = await _schedulingService.PostSchedulingAsync(scheduling);
+            if (postScheduling != null)                            
                 return true;
-            }
+            
             return false;
         }
+
+        private void MarkAsCompleted()
+        {
+            // Cria um arquivo indicando que o formulário já foi exibido
+            string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "FirstPostScheduling.lock");
+            File.WriteAllText(filePath, "completed");
+        }
+
+        private static bool IsFirstRunCompleted()
+        {
+            string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "FirstPostScheduling.lock");
+
+            // Verifica se o arquivo existe
+            return File.Exists(filePath);
+        }
+
     }
 }

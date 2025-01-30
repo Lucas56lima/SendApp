@@ -1,27 +1,33 @@
 ﻿using Domain.Entities;
-using Microsoft.Extensions.Configuration;
 using System.IO.Compression;
+using System.Reflection;
 using System.Xml.Linq;
 
 namespace SendAppGI.Services
 {
     public class FileService
-    {       
-        private readonly DataStoreService _dataStoreService;       
+    {
+        private readonly DataStoreService _dataStoreService;
+        private CancellationTokenSource cancellationTokenSource;
+        private FileSystemWatcher watcher;
+        private static readonly object lockObject = new();
+        public Store Store;
 
-        public Store Store { get; private set; }
-
-        public FileService(IConfiguration configuration, DataStoreService dataStoreService)
-        {
-            
-            _dataStoreService = dataStoreService;
-        }
+        public FileService(DataStoreService dataStoreService) => _dataStoreService = dataStoreService;
 
         public async Task GetFileForPathAsync(string path)
         {
-            string filePath = "C:\\Users\\Usuário\\source\\repos\\SendApp\\Service\\Files\\";
-            string zipFilePath = Path.Combine(filePath, $"XML_{DateTime.Now:yyyy_MM}.zip");
+            string appDirectory = Path.GetDirectoryName(Assembly.GetEntryAssembly()?.Location);
 
+            // Cria um caminho para uma pasta chamada "Data" dentro do diretório da aplicação
+            string serviceFilesPath = Path.Combine(appDirectory, "Services", "Files");
+
+            // Verifica se a pasta existe, caso contrário, cria
+            if (!Directory.Exists(serviceFilesPath))
+            {
+                Directory.CreateDirectory(serviceFilesPath);
+            }
+            string zipFilePath = Path.Combine(serviceFilesPath, $"XML_{DateTime.Now:yyyy_MM}.zip");
             try
             {
                 // Verifica se o arquivo ZIP já existe. Se não, cria um vazio.
@@ -31,19 +37,19 @@ namespace SendAppGI.Services
                 }
 
                 var filterFiles = Directory.EnumerateFiles(path, "*.xml", SearchOption.AllDirectories)
-                    .Where(f =>
-                    {
-                        DateTime fileCreation = File.GetLastWriteTime(f);
-                        DateTime now = DateTime.Now;
-                        return (now.Month == 1 && fileCreation.Month == 12 && now.Year > fileCreation.Year) ||
-                               (fileCreation.Month == now.Month);
-                    })
+                   .Where(f =>
+                   {
+                       DateTime fileCreation = File.GetLastWriteTime(f);
+                       DateTime now = DateTime.Now;
+                       // Verifica se o mês e o ano do arquivo coincidem com o mês e o ano atuais
+                       return fileCreation.Month == now.Month && fileCreation.Year == now.Year;
+                   })
                     .OrderByDescending(File.GetLastWriteTime) // Ordena para obter o mais recente
                     .ToList();
 
-                if (!filterFiles.Any())
+                if (filterFiles.Count == 0)
                 {
-                    Console.WriteLine("Nenhum arquivo XML encontrado.");
+                    MessageBox.Show("Nenhum arquivo XML encontrado.");
                     return;
                 }
 
@@ -58,11 +64,6 @@ namespace SendAppGI.Services
                     if (archive.GetEntry(fileName) == null)
                     {
                         archive.CreateEntryFromFile(file, fileName);
-                        Console.WriteLine($"Arquivo {fileName} adicionado ao ZIP.");
-                    }
-                    else
-                    {
-                        Console.WriteLine($"Arquivo {fileName} já está no ZIP.");
                     }
                 }
 
@@ -70,32 +71,40 @@ namespace SendAppGI.Services
                 var latestFile = filterFiles.FirstOrDefault();
                 if (latestFile == null)
                 {
-                    Console.WriteLine("Erro ao encontrar o último arquivo.");
                     return;
                 }
 
                 XElement xml = XElement.Load(latestFile); // Usa o caminho completo do arquivo
 
-                string cnpj = xml?.Element("CNPJ")?.Value ?? "000000000";
-                string name = xml?.Element("xNome")?.Value ?? "Sem identificação";
 
+                var getElements = GetElementsXmls(XElement.Load(latestFile));
+                string cnpj = getElements[1];
+
+                string name = getElements[0];
+
+
+                var storeDb = await _dataStoreService.GetStoreByIdAsync();
                 Store store = new()
                 {
                     Name = name,
-                    Password = "00000"
+                    Cnpj = cnpj,
+                    Email = storeDb.Email,
+                    Password = storeDb.Password,
+                    Path = storeDb.Path
                 };
-
                 // Post executado apenas uma vez
-                await _dataStoreService.PostStoreAsync(store);
-                Console.WriteLine("Informações enviadas com sucesso.");
+                await _dataStoreService.PutStoreByIdAsync(1, store);
+                Log log = new()
+                {
+                    StoreName = store.Name,
+                    Message = "Loja criada!",
+                    Created = DateTime.Now
+                };
+                await _dataStoreService.PostLogAsync(log);
             }
             catch (IOException ioEx)
             {
-                Console.WriteLine($"Erro de I/O: {ioEx.Message}");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Erro ao processar arquivos: {ex.Message}");
+                MessageBox.Show($"Erro de I/O: {ioEx.Message}");
             }
         }
 
@@ -105,7 +114,6 @@ namespace SendAppGI.Services
         {
             try
             {
-                Console.WriteLine($"Criando novo arquivo ZIP: {zipFilePath}");
                 using (FileStream zipToCreate = new(zipFilePath, FileMode.Create))
                 using (new ZipArchive(zipToCreate, ZipArchiveMode.Create))
                 {
@@ -114,64 +122,112 @@ namespace SendAppGI.Services
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Erro ao criar o arquivo ZIP: {ex.Message}");
+                MessageBox.Show($"Erro ao criar o arquivo ZIP: {ex.Message}");
             }
         }
 
-        public void StartWatching(string path, string storeName)
+        public static List<string> GetElementsXmls(XElement xml)
         {
-            if (string.IsNullOrWhiteSpace(path))
+            XNamespace ns = "http://www.portalfiscal.inf.br/nfe";
+            XNamespace nsc = "http://www.fazenda.sp.gov.br/sat";
+
+            string cnpj = GetElementValue(xml, "CNPJ", ns, nsc);
+            string name = GetElementValue(xml, "xNome", ns, nsc);
+            return [name, cnpj];
+        }
+
+        private static string GetElementValue(XElement xml, string elementName, XNamespace ns, XNamespace nsc)
+        {
+            return xml.Descendants(ns + "emit").Elements(ns + elementName).FirstOrDefault()?.Value switch
             {
-                throw new ArgumentException("O caminho e o nome da loja não podem ser nulos ou vazios.");
+                null or "" => xml.Descendants(nsc + "emit").Elements(nsc + elementName).FirstOrDefault()?.Value switch
+                {
+                    null or "" => xml.Descendants("emit").Elements(elementName).FirstOrDefault()?.Value ?? "Sem identificação",
+                    var value => value
+                },
+                var value => value
+            };
+        }
+        public async Task StartWatching(string path, string storeName)
+        {
+            if (string.IsNullOrWhiteSpace(path) || string.IsNullOrWhiteSpace(storeName))
+            {
+                MessageBox.Show("O caminho e o nome da loja não podem ser nulos ou vazios.");
             }
 
-            // Configuração do FileSystemWatcher
-            var watcher = new FileSystemWatcher
+            var storeDb = _dataStoreService.GetStoreByIdAsync();
+            if (storeDb != null)
             {
-                Path = path,
-                Filter = "*.xml",
-                NotifyFilter = NotifyFilters.FileName | NotifyFilters.LastWrite,
-                EnableRaisingEvents = true,
-                IncludeSubdirectories = true
-            };
+                Store = new Store
+                {
+                    Path = storeDb.Result.Path,
+                    Name = storeDb.Result.Name,
+                    Email = storeDb.Result.Email,
+                    Password = storeDb.Result.Password
+                };
+            }
+            // Tarefa de segundo plano
+            await Task.Run(() =>
+            {
+                var watcher = new FileSystemWatcher
+                {
+                    Path = path,
+                    Filter = "*.xml",
+                    NotifyFilter = NotifyFilters.FileName | NotifyFilters.LastWrite,
+                    EnableRaisingEvents = true,
+                    IncludeSubdirectories = true
+                };
 
-            watcher.Created += OnNewXmlCreated;
-          
-            Task.Run(() =>
-            {
-                Console.WriteLine("Iniciando o monitoramento de arquivos...");
-                // Mantenha o monitoramento ativo, fazendo com que o código não saia
+                watcher.Created += OnNewXmlCreated;
+
+                // Manter o processo ativo
                 while (true)
-                {                   
-                    Thread.Sleep(1000);
+                {
+                    Thread.Sleep(1000); // Simula trabalho em segundo plano
                 }
             });
         }
 
+        // Método para interromper o monitoramento
+        public void StopWatching()
+        {
+            if (watcher != null)
+            {
+                watcher.Dispose();
+                watcher = null;
+            }
+
+            if (cancellationTokenSource != null)
+            {
+                cancellationTokenSource.Cancel();
+                cancellationTokenSource.Dispose();
+                cancellationTokenSource = null;
+            }
+        }
+
         public static void OnNewXmlCreated(object sender, FileSystemEventArgs e)
         {
-            // Garantir que o código abaixo seja executado na thread principal
-            if (e is FileSystemEventArgs fileEventArgs)
-            {                
-                AddXmlToZip(fileEventArgs.FullPath);
-            }
+            AddXmlToZip(e.FullPath);
         }
         // Adiciona XML ao ZIP de forma segura
         public static void AddXmlToZip(string path)
         {
-            string filePath = "C:\\Users\\lucas\\Source\\Repos\\Lucas56lima\\SendApp\\Service\\Files\\";
-            string zipFilePath = Path.Combine(filePath, $"XML_{DateTime.Now:yyyy_MM}.zip");
+            string appDirectory = Path.GetDirectoryName(Assembly.GetEntryAssembly()?.Location);
 
-            try
+            // Cria um caminho para uma pasta chamada "Data" dentro do diretório da aplicação
+            string zipFilePath = Path.Combine(appDirectory, "Services", "Files");
+
+            // Verifica se a pasta existe, caso contrário, cria
+            if (!Directory.Exists(zipFilePath))
             {
-                // Se o arquivo ZIP não existir, cria um vazio
-                if (!File.Exists(zipFilePath))
-                {
-                    CreateEmptyZipFile(zipFilePath);
-                }
+                Directory.CreateDirectory(zipFilePath);
+            }
 
-                // Adiciona um bloqueio para evitar concorrência no acesso ao arquivo ZIP
-                
+            zipFilePath += $"\\XML_{DateTime.Now:yyyy_MM}.zip";
+
+            // Adiciona um bloqueio para evitar concorrência no acesso ao arquivo ZIP
+            lock (lockObject)
+            {
                 using FileStream zipToOpen = new(zipFilePath, FileMode.OpenOrCreate);
                 using ZipArchive archive = new(zipToOpen, ZipArchiveMode.Update);
                 string fileName = Path.GetFileName(path);
@@ -180,19 +236,10 @@ namespace SendAppGI.Services
                 if (archive.GetEntry(fileName) == null)
                 {
                     archive.CreateEntryFromFile(path, fileName);
-                    Console.WriteLine($"Arquivo {fileName} adicionado ao ZIP.");
                 }
-                else
-                {
-                    Console.WriteLine($"Arquivo {fileName} já está no ZIP.");
-                }
-                
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Erro ao adicionar XML ao ZIP: {ex.Message}");
             }
         }
+
 
         public void DeleteZipFile(string path)
         {
@@ -201,13 +248,24 @@ namespace SendAppGI.Services
                 if (File.Exists(path))
                 {
                     File.Delete(path);
-                    Console.WriteLine("Arquivo deletado com sucesso");
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Erro ao deletar o arquivo: {ex.Message}");
+                MessageBox.Show($"Erro ao deletar o arquivo: {ex.Message}");
             }
         }
+
+        public async Task ProcessFilesAsync(CancellationToken cancellationToken)
+        {
+            // Sua lógica para processamento de arquivos
+            while (!cancellationToken.IsCancellationRequested)
+            {
+                await StartWatching(Store.Path, Store.Name);
+                // Simulação de tempo de espera ou operação longa
+                await Task.Delay(5000, cancellationToken);
+            }
+        }
+
     }
 }

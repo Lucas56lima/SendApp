@@ -1,9 +1,8 @@
 ﻿using Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 using SendAppGI.Services;
 using SendAppGI.Viewmodels;
 using System.ComponentModel;
-
-
 namespace SendAppGI
 {
     public partial class Initial : Form
@@ -11,12 +10,12 @@ namespace SendAppGI
         private SplitContainer splitContainer;
         private Button btnInicio, btnDados, btnLogs, btnEditar;
         private TextBox txtNome, txtEmail, txtSenha;
-        private Label lblNome, lblEmail, lblSenha;        
+        private Label lblNome, lblEmail, lblSenha;     
         private readonly InitialViewModel viewModel;
        
         public Initial(DataStoreService dataStoreService,FileService fileService, MailService mailService )
         {
-            viewModel = new InitialViewModel(dataStoreService, fileService, mailService)
+            viewModel = new InitialViewModel(dataStoreService, fileService)
             {
                 Store = new()
             };
@@ -24,41 +23,26 @@ namespace SendAppGI
             viewModel.PropertyChanged += ViewModel_PropertyChanged;            
             viewModel.LoadLogsCommand.Execute(null);
             viewModel.LoadSchedulingCommand.Execute(null);
-            InitializeComponent();            
-            viewModel.StartWatchingCommand.Execute(null);
+            InitializeComponent();     
         }
 
         private void ViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == nameof(viewModel.Store))
             {
-                txtNome.Text = viewModel.Store?.Name;
-                txtEmail.Text = viewModel.Store?.Email;
-                txtSenha.Text = viewModel.Store?.Password;                
+                txtNome.Text = viewModel.Store?.Name??"";
+                txtEmail.Text = viewModel.Store?.Email??"";
+                txtSenha.Text = viewModel.Store?.Password ?? "";                
             }
         }
 
         private void InitializeComponent()
         {
-            
-           
-            NotifyIcon notifyIcon = new NotifyIcon();
-            notifyIcon.Icon = SystemIcons.WinLogo ; // ícone de exemplo
-            notifyIcon.Visible = true;
-            notifyIcon.Text = "SendApp";
-
-            // Lógica para o ícone de bandeja
-            notifyIcon.DoubleClick += (sender, e) =>
-            {
-                // Código para restaurar ou interagir com a aplicação
-                ShowMainWindow();
-            };
-
-            // Configuração geral da janela
+          
             Text = "Configurações";
             StartPosition = FormStartPosition.CenterScreen;
             Size = new Size(500, 300);
-            
+
             splitContainer = new SplitContainer
             {
                 Dock = DockStyle.Fill,
@@ -68,19 +52,25 @@ namespace SendAppGI
             };
             Controls.Add(splitContainer);
 
-            // Painel Esquerdo - Menu
+            // Adicionando os botões
             btnInicio = CreateButton("Início", 10, 10, BtnInicio_Click);
             btnDados = CreateButton("Dados", 10, 50, BtnDados_Click);
             btnLogs = CreateButton("Logs", 10, 90, BtnLogs_Click);
-            splitContainer.Panel1.Controls.AddRange([btnInicio, btnDados, btnLogs]);
-            FillControls(viewModel.Store);            
+            splitContainer.Panel1.Controls.AddRange(new Control[] { btnInicio, btnDados, btnLogs });
+
+            FillControls(viewModel.Store);
         }
 
-        private void ShowMainWindow()
+
+        // Método para restaurar a janela principal
+       
+
+
+        // Método de click para "Sair"
+        private void SairMenuItem_Click(object sender, EventArgs e)
         {
-            this.Show();
-            this.WindowState = FormWindowState.Normal;
-            this.BringToFront();
+            // Fecha a aplicação
+            Application.Exit();
         }
 
         private static Button CreateButton(string text, int x, int y, EventHandler onClick) => new Button
@@ -226,9 +216,16 @@ namespace SendAppGI
                         {
                             if(!String.IsNullOrWhiteSpace(txtPath.Text))
                                 viewModel.Store.Path = txtPath.Text;
-                            viewModel.PutStoreCommand.Execute(null);
-                            // Volta para o modo de visualização
+                            viewModel.PutStoreCommand.Execute(null);                                                   
                             btnEdit.PerformClick();
+                            txtPath.ReadOnly = true;
+                            btnBrowse.Enabled = false;
+                            btnEdit.Text = "Editar";
+                            btnEdit.Visible = true;
+                            splitContainer.Panel2.Controls.Remove(btnSave);
+                            splitContainer.Panel2.Controls.Remove(btnCancel);
+                            isEditing = false; // Volta para o modo de visualizaç
+
                         }
                          
                     };
@@ -330,15 +327,11 @@ namespace SendAppGI
                 MessageBox.Show("Erro: ViewModel não foi inicializado.");
                 return;
             }
-
             // Atualize o Store no ViewModel com os valores inseridos nas TextBox
-            viewModel.Store.Name = txtNome.Text;
-            viewModel.Store.Cnpj = "00000000";  // Se você deseja deixar um valor fixo
+            viewModel.Store.Name = txtNome.Text;            
             viewModel.Store.Email = txtEmail.Text;
-            viewModel.Store.Password = txtSenha.Text;
-            viewModel.Store.Path = "C:\\Users\\Usuário\\Desktop\\Nova pasta";  // O caminho fixo também pode ser definido aqui
-
-            // Defina os campos como somente leitura após salvar
+            viewModel.Store.Password = txtSenha.Text; 
+            
             txtNome.ReadOnly = txtEmail.ReadOnly = txtSenha.ReadOnly = true;
             var textBoxes = new (TextBox TextBox, Action<string> UpdateAction)[]
             {
@@ -357,7 +350,8 @@ namespace SendAppGI
 
             if (viewModel.PutStoreCommand.CanExecute(null))
             {                
-                viewModel.PutStoreCommand.Execute(null);                
+                viewModel.PutStoreCommand.Execute(null);             
+                
             }
             else
             {

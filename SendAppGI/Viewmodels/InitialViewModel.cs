@@ -10,65 +10,35 @@ namespace SendAppGI.Viewmodels
     public class InitialViewModel : INotifyPropertyChanged
     {
         private readonly DataStoreService _service;
-        private readonly FileService _fileService;
-        private readonly MailService _mailService;
+        private readonly FileService _fileService;        
         public ICommand SaveStoreCommand { get; }
         public ICommand LoadStoreCommand { get; }
         public ICommand LoadSchedulingCommand { get; }
         public ICommand LoadStoreFromCacheCommand { get; }
-        public ICommand PutStoreCommand { get; }
-        public ICommand StartWatchingCommand { get; }
+        public ICommand PutStoreCommand { get; }        
         public ICommand LoadLogsCommand { get; }
         public ICommand SendEmailCommand { get; }
-        public InitialViewModel(DataStoreService service, FileService fileService,MailService mailService)
+        public ICommand GetFirstArchiveCommand { get; }
+        public ICommand SaveLogCommand { get; }
+        public ICommand PutSchedulingCommand { get; }
+        public InitialViewModel(DataStoreService service, FileService fileService)
         {
             _service = service;
-            _fileService = fileService;
-            _mailService = mailService;
-            SaveStoreCommand = new RelayCommand(async () => await SaveStoreCommandAsync(), CanSave);
+            _fileService = fileService;            
+            SaveStoreCommand = new RelayCommand(async () => await SaveStoreAsync(), CanSave);
             LoadStoreCommand = new RelayCommand(async () => await LoadStoreAsync(), CanLoadStore);
             LoadSchedulingCommand = new RelayCommand(async () => await LoadSchedulingAsync(), CanLoadScheduling);
             LoadStoreFromCacheCommand = new RelayCommand(() => LoadStoreFromCacheAsync(), CanLoadStoreCache);
-            PutStoreCommand = new RelayCommand(async () => await PutStoreAsync(), CanPutStore);
-            StartWatchingCommand = new RelayCommand(async () => await StartWatchingAsync(), CanStartWatching);
-            SendEmailCommand = new RelayCommand(async () => await SendEmail(), CanSendEmail);
+            PutStoreCommand = new RelayCommand(async () => await PutStoreAsync(), CanPutStore);                  
             LoadLogsCommand = new RelayCommand(async () => await LoadLogsAsync(), CanLoadLogs);
-           
-            _ = InitializeWatcherAsync();  // Inicia o monitoramento no início da aplicação
+            GetFirstArchiveCommand = new RelayCommand(async () => await GetFirstArchive(), CanGetFirstArchive);
+            
         }
-
-
-        private async Task SendEmail()
+        private async Task GetFirstArchive()
         {
-            // Aguarde até que o objeto Store esteja disponível
-            while (Store == null)
+            if(Store != null)
             {
-                await Task.Delay(1000);
-            }
-
-            string path = "C:\\Users\\lucas\\source\\repos\\Lucas56lima\\SendApp\\Service\\Files\\";
-            var zipFiles = Directory.GetFiles(path, "*.zip", SearchOption.AllDirectories);
-
-            if (zipFiles.Length > 0)
-            {
-                // Aguarde até que o objeto Scheduling esteja disponível
-                while (Scheduling == null)
-                {
-                    await Task.Delay(1000);
-                }
-
-                foreach (var file in zipFiles)
-                {
-                    if (Scheduling.TransitionDate == DateOnly.FromDateTime(DateTime.Now) || Scheduling.Status != null)
-                    {
-                        // Enviar o e-mail
-                        await _mailService.SendMail(Store.Email, Store.Password, file, Store.Name);
-
-                        // Atualizar o agendamento
-                        await _service.PutSchedulingByIdAsync(Scheduling.Id, Scheduling);
-                        await _service.PostSchedulingByIdAsync(Scheduling);                        
-                    }
-                }
+                await _fileService.GetFileForPathAsync(Store.Path);
             }
         }
 
@@ -122,42 +92,9 @@ namespace SendAppGI.Viewmodels
             }
             catch(Exception ex)
             {
-                Console.WriteLine("Erro ao carregar o agendamento", ex);
+                MessageBox.Show($"Erro ao carregar o agendamento {ex}");
             }
            
-        }
-
-        private async Task InitializeWatcherAsync()
-        {
-            try
-            {
-                if (Store == null && Scheduling == null)
-                {
-                    await LoadStoreAsync();
-                    await LoadSchedulingAsync();
-                }
-
-
-                if (Scheduling != null)
-                {
-                    await SendEmail();
-                     // Inicia o monitoramento assíncrono
-                }
-
-                if (Store != null && !string.IsNullOrEmpty(Store.Path) && !string.IsNullOrEmpty(Store.Name))
-                {
-                   
-                    await StartWatchingAsync(); // Inicia o monitoramento assíncrono
-                }
-                else
-                {
-                    Console.WriteLine("Store não está disponível ou possui dados inválidos para iniciar o monitoramento.");
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Erro ao inicializar o monitoramento: {ex.Message}");
-            }
         }
 
         private async Task LoadLogsAsync()
@@ -169,7 +106,7 @@ namespace SendAppGI.Viewmodels
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Erro ao carregar logs: {ex.Message}");
+                MessageBox.Show($"Erro ao carregar logs: {ex.Message}");
             }
         }
 
@@ -181,11 +118,11 @@ namespace SendAppGI.Viewmodels
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Erro ao carregar store: {ex.Message}");
+                MessageBox.Show($"Erro ao carregar store: {ex.Message}");
             }
         }
 
-        private async Task SaveStoreCommandAsync()
+        private async Task SaveStoreAsync()
         {
             try
             {
@@ -194,14 +131,13 @@ namespace SendAppGI.Viewmodels
                     bool success = await _service.PostStoreAsync(Store);
                     if (success)
                     {
-                        OnPropertyChanged(nameof(Store));
-                        Console.WriteLine("Store salva com sucesso.");
+                        OnPropertyChanged(nameof(Store));                        
                     }
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Erro ao salvar store: {ex.Message}");
+                MessageBox.Show($"Erro ao salvar store: {ex.Message}");
             }
         }
 
@@ -213,7 +149,7 @@ namespace SendAppGI.Viewmodels
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Erro ao carregar store do cache: {ex.Message}");
+                MessageBox.Show($"Erro ao carregar store do cache: {ex.Message}");
             }
         }
 
@@ -226,41 +162,27 @@ namespace SendAppGI.Viewmodels
                     bool success = await _service.PutStoreByIdAsync(Store.Id, Store);
                     if (success)
                     {
-                        OnPropertyChanged(nameof(Store));
-                        Console.WriteLine("Store atualizada com sucesso.");
+                        OnPropertyChanged(nameof(Store));                        
                     }
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Erro ao atualizar store: {ex.Message}");
+                MessageBox.Show($"Erro ao atualizar store: {ex.Message}");
             }
         }
 
-        private async Task StartWatchingAsync()
-        {
-            try
-            { 
-                string path = "C:\\Users\\lucas\\Downloads\\Nova pasta";
-                await Task.Run(() => _fileService.StartWatching(path,Store.Name));// Inicia o monitoramento em um thread separado
-             
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Erro ao iniciar observação: {ex.Message}");
-            }
-        }
+        
 
         // Método que monitora a pasta usando o FileSystemWatcher        
         
         private bool CanSave() => Store != null && !string.IsNullOrEmpty(Store.Name) && !string.IsNullOrEmpty(Store.Email);
         private bool CanLoadStore() => true;
         private bool CanLoadStoreCache() => true;
-        private bool CanPutStore() => true;
-        private bool CanStartWatching() => Store != null && !string.IsNullOrEmpty(Store.Path);
+        private bool CanPutStore() => true;        
         private bool CanLoadLogs() => true;
-        private bool CanLoadScheduling() => true;
-        private bool CanSendEmail() => true;
+        private bool CanLoadScheduling() => true;        
+        private bool CanGetFirstArchive() => true;
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected void OnPropertyChanged([CallerMemberName] string propertyName = null)

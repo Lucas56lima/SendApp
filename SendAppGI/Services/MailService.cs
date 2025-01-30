@@ -4,65 +4,79 @@ using System.Net.Mail;
 
 namespace SendAppGI.Services
 {
-    public class MailService(DataStoreService dataStoreService, FileService fileService)
+    public class MailService
     {
-        private readonly DataStoreService _dataStoreService = dataStoreService;
-        private readonly FileService _fileService = fileService;
-        public async Task SendMail(string email, string password, string file, string storeName)
+        private readonly DataStoreService _dataStoreService;
+        
+
+        // Construtor
+        public MailService(DataStoreService dataStoreService)
+        {
+            _dataStoreService = dataStoreService;            
+        }
+        public async Task<bool> SendMail(string email, string password, string file, string storeName)
         {
             try
             {
-                SmtpClient smtpClient = new("smtp.deco.com.br")
+                using (SmtpClient smtpClient = new("smtp.deco.com.br"))
                 {
-                    Port = 0,
-                    Credentials = new NetworkCredential(email, password),
-                    EnableSsl = false,
-                };
+                    smtpClient.Port = 587;
+                    smtpClient.Credentials = new NetworkCredential(email, password);
+                    smtpClient.EnableSsl = false;
 
-                MailMessage mail = new()
-                {
-                    From = new MailAddress(email),
-                    Subject = storeName + DateTime.Now.ToString("MM-yyyy"),
-                    Body = "Arquivos de fechamento.",
-                    IsBodyHtml = false
-                };
+                    using (MailMessage mail = new())
+                    {
+                        mail.From = new MailAddress(email);
+                        mail.Subject = storeName + DateTime.Now.ToString("MM-yyyy");
+                        mail.Body = "Arquivos de fechamento.";
+                        mail.IsBodyHtml = false;
+                        mail.To.Add("fiscal@deco.com.br");
 
-                //mail.To.Add("emailteste@com.br");
+                        if (!File.Exists(file))
+                        {
+                            MessageBox.Show("Arquivo não encontrado: " + file);
+                            return false;
+                        }
 
-                mail.To.Add("fiscal@deco.com.br");
+                        using (Attachment attachment = new(file))
+                        {
+                            mail.Attachments.Add(attachment);
 
-                Attachment attachment = new(file);
-                mail.Attachments.Add(attachment);
-                Log log = new()
-                {
-                    StoreName = storeName,
-                    Message = "Iniciando o envio do E-mail",
-                    Created = DateTime.Now
-                };
-                await _dataStoreService.PostLogAsync(log);
-                smtpClient.Send(mail);
-                log.Message = "E-mail enviado!";
-                await _dataStoreService.PostLogAsync(log);
-                Console.WriteLine("E-mail enviado com sucesso!");
-                _fileService.DeleteZipFile(file);
+                            // Log de início do envio
+                            Log log = new()
+                            {
+                                StoreName = storeName,
+                                Message = "Iniciando o envio do E-mail",
+                                Created = DateTime.Now
+                            };
+                            await _dataStoreService.PostLogAsync(log);
+
+                            // Envia o e-mail
+                            await smtpClient.SendMailAsync(mail);
+
+                            // Log de sucesso
+                            Log logSend = new()
+                            {
+                                StoreName = storeName,
+                                Message = "E-mail enviado!",
+                                Created = DateTime.Now
+                            };
+                            await _dataStoreService.PostLogAsync(logSend);
+
+                            return true;
+                        }
+                    }
+                }
             }
             catch (SmtpException ex)
             {
-                Console.WriteLine($"Erro SMTP: {ex.Message}");
+                MessageBox.Show($"Erro ao enviar e-mail: {ex.Message}");
                 if (ex.InnerException != null)
                 {
-                    Console.WriteLine($"Detalhes da exceção interna: {ex.InnerException.Message}");
+                    MessageBox.Show($"Detalhes da exceção interna: {ex.InnerException.Message}");
                 }
+                return false;
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Erro geral: {ex.Message}");
-                if (ex.InnerException != null)
-                {
-                    Console.WriteLine($"Detalhes da exceção interna: {ex.InnerException.Message}");
-                }
-            }
-
         }
 
     }
