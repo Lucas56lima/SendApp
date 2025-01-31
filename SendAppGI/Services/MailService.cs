@@ -18,7 +18,7 @@ namespace SendAppGI.Services
         {
             try
             {
-                using (SmtpClient smtpClient = new("smtp.deco.com.br"))
+                using (SmtpClient smtpClient = new("smtp.com.br"))
                 {
                     smtpClient.Port = 587;
                     smtpClient.Credentials = new NetworkCredential(email, password);
